@@ -21,6 +21,15 @@ header:not(.ts-header),nav:not(.ts-bottom){display:none!important}
 .ts-drawer a{display:block;padding:14px 18px;color:#222;text-decoration:none;border-bottom:1px solid #eee;font-weight:600}
 .ts-drawer a:active{background:#e7f4ee}.ts-drawer hr{border:0;border-top:6px solid var(--bg);margin:0}
 /* Page d'accueil : adaptez #app si votre conteneur a un autre nom */
-:is(#app,main) h1{margin:16px;padding:18px 14px;background:#fff;border:2px solid var(--v);border-radius:18px;text-align:center;color:var(--v);font-size:1.5rem;line-height:1.3;box-shadow:0 3px 0 var(--j)}
-:is(#app,main) p,:is(#app,main) ol li{margin:12px 16px;padding:14px;background:#fff;border:1px solid #d9e6df;border-radius:14px;text-align:center;line-height:1.5;list-style:none}
-:is(#app,main) ol{padding:0;margin:0}
+[data-view=accueil] h1{margin:16px;padding:18px 14px;background:#fff;border:2px solid var(--v);border-radius:18px;text-align:center;color:var(--v);font-size:1.5rem;line-height:1.3;box-shadow:0 3px 0 var(--j)}
+[data-view=accueil] p,[data-view=accueil] .etapes li{margin:12px 16px;padding:14px;background:#fff;border:1px solid #d9e6df;border-radius:14px;text-align:center;line-height:1.5;list-style:none}
+[data-view=accueil] .etapes{padding:0;margin:0}
+[data-view=accueil] .btn{display:block;width:calc(100% - 32px);margin:12px 16px}
+.ts-sheet{position:fixed;inset:0;z-index:70;background:#0007;display:none;align-items:flex-end}
+.ts-sheet.on{display:flex}
+.ts-sheet>div{background:#fff;width:100%;max-height:85vh;overflow:auto;border-radius:20px 20px 0 0;padding:20px 18px 26px}
+.ts-sheet h2{margin:0 0 12px;color:var(--v);text-align:center}
+.ts-sheet p,.ts-sheet li{background:#faf7f0;border:1px solid #d9e6df;border-radius:12px;padding:10px 12px;margin:8px 0;line-height:1.45;list-style:none}
+.ts-sheet ul{padding:0;margin:0}
+.ts-sheet button{display:block;width:100%;margin-top:14px;padding:12px;border:0;border-radius:12px;background:var(--v);color:#fff;font-weight:700}
+.ts-brand{cursor:pointer}
