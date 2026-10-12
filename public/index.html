@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TROC MAISON - Échangez près de chez vous</title>
+<meta name="description" content="TROC MAISON : la plateforme gabonaise de troc d'objets entre particuliers.">
+<meta name="theme-color" content="#009E60">
+<link rel="icon" href="icons/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="entete">
+  <img src="icons/icon-192.png" alt="" width="44" height="44">
+  <span class="marque">TROC <b>MAISON</b></span>
+</header>
+
+<main>
+  <section data-view="chargement"><p class="centre">Chargement…</p></section>
+
+  <section data-view="accueil" hidden>
+    <h1>Donnez, troquez, réemployez près de chez vous</h1>
+    <p class="intro">TROC MAISON permet aux particuliers du Gabon d'échanger les objets dont ils n'ont plus besoin contre ceux qu'ils recherchent. Simple, gratuit et solidaire.</p>
+    <ol class="etapes">
+      <li><b>Publiez</b> un objet avec une photo et une description.</li>
+      <li><b>Trouvez</b> les personnes qui cherchent justement cet objet.</li>
+      <li><b>Rencontrez-vous</b> et échangez en confiance.</li>
+    </ol>
+    <button class="btn" data-go="inscription">Créer mon compte</button>
+    <button class="btn btn-clair" data-go="connexion">J'ai déjà un compte</button>
+    <p class="note">Lancement à Libreville, puis dans tout le Gabon.</p>
+  </section>
+
+  <section data-view="inscription" hidden>
+    <h1>Créer mon compte</h1>
+    <form id="form-inscription" novalidate>
+      <label for="i-prenom">Votre prénom</label>
+      <input id="i-prenom" name="prenom" type="text" autocomplete="given-name" maxlength="40" required>
+
+      <label for="i-tel">Téléphone WhatsApp <span class="opt">(facultatif)</span></label>
+      <input id="i-tel" name="telephone" type="tel" autocomplete="tel" maxlength="20" placeholder="+241 ...">
+
+      <label for="i-ville">Ville</label>
+      <select id="i-ville" name="ville" data-villes></select>
+
+      <label for="i-quartier">Quartier</label>
+      <input id="i-quartier" name="quartier" type="text" list="quartiers" maxlength="60" placeholder="Ex. : Akanda, Owendo, Louis...">
+
+      <label for="i-email">Adresse e-mail</label>
+      <input id="i-email" name="email" type="email" inputmode="email" autocomplete="email" required>
+
+      <label for="i-mdp">Mot de passe (8 caractères minimum)</label>
+      <input id="i-mdp" name="mdp" type="password" autocomplete="new-password" minlength="8" data-mdp required>
+
+      <label for="i-mdp2">Répétez le mot de passe</label>
+      <input id="i-mdp2" name="mdp2" type="password" autocomplete="new-password" minlength="8" data-mdp required>
+
+      <label class="case"><input type="checkbox" data-voir-mdp> Afficher les mots de passe</label>
+
+      <p class="note">En créant un compte, vous vous engagez à rester respectueux et honnête, et à ne proposer que des objets autorisés.</p>
+      <p class="msg" role="alert"></p>
+      <button class="btn" type="submit">Créer mon compte</button>
+    </form>
+    <button class="lien" data-go="connexion">J'ai déjà un compte</button>
+    <button class="lien" data-go="accueil">Retour</button>
+  </section>
+
+  <section data-view="connexion" hidden>
+    <h1>Me connecter</h1>
+    <form id="form-connexion" novalidate>
+      <label for="c-email">Adresse e-mail</label>
+      <input id="c-email" name="email" type="email" inputmode="email" autocomplete="email" required>
+      <label for="c-mdp">Mot de passe</label>
+      <input id="c-mdp" name="mdp" type="password" autocomplete="current-password" data-mdp required>
+      <label class="case"><input type="checkbox" data-voir-mdp> Afficher le mot de passe</label>
+      <p class="msg" role="alert"></p>
+      <button class="btn" type="submit">Me connecter</button>
+    </form>
+    <button class="lien" data-go="reset">Mot de passe oublié ?</button>
+    <button class="lien" data-go="inscription">Créer un compte</button>
+    <button class="lien" data-go="accueil">Retour</button>
+  </section>
+
+  <section data-view="reset" hidden>
+    <h1>Mot de passe oublié</h1>
+    <p class="intro">Indiquez votre adresse e-mail : nous vous envoyons un lien pour choisir un nouveau mot de passe.</p>
+    <form id="form-reset" novalidate>
+      <label for="r-email">Adresse e-mail</label>
+      <input id="r-email" name="email" type="email" inputmode="email" autocomplete="email" required>
+      <p class="msg" role="alert"></p>
+      <button class="btn" type="submit">Envoyer le lien</button>
+    </form>
+    <button class="lien" data-go="connexion">Retour à la connexion</button>
+  </section>
+
+  <section data-view="profil" hidden>
+    <h1 id="salut">Mon profil</h1>
+    <p class="note" id="info-compte"></p>
+    <form id="form-profil" novalidate>
+      <label for="p-prenom">Prénom</label>
+      <input id="p-prenom" name="prenom" type="text" autocomplete="given-name" maxlength="40" required>
+
+      <label for="p-tel">Téléphone WhatsApp <span class="opt">(facultatif)</span></label>
+      <input id="p-tel" name="telephone" type="tel" autocomplete="tel" maxlength="20">
+
+      <label for="p-ville">Ville</label>
+      <select id="p-ville" name="ville" data-villes></select>
+
+      <label for="p-quartier">Quartier</label>
+      <input id="p-quartier" name="quartier" type="text" list="quartiers" maxlength="60">
+
+      <p class="note">Votre téléphone et votre adresse e-mail ne sont jamais affichés publiquement.</p>
+      <p class="msg" role="alert"></p>
+      <button class="btn" type="submit">Enregistrer</button>
+    </form>
+    <button class="btn btn-clair" id="btn-deconnexion" type="button">Me déconnecter</button>
+  </section>
+
+  <section data-view="bientot" hidden>
+    <h1>Mes objets</h1>
+    <p class="intro">La publication d'objets arrive très bientôt. Vous pourrez ajouter des photos, décrire votre objet et indiquer ce que vous recherchez.</p>
+    <p class="note">Merci d'être parmi les premiers membres de TROC MAISON.</p>
+  </section>
+</main>
+
+<datalist id="quartiers">
+  <option value="Akanda"><option value="Angondjé"><option value="Akébé"><option value="Alibandeng">
+  <option value="Awendjé"><option value="Batterie IV"><option value="Charbonnages"><option value="Glass">
+  <option value="Lalala"><option value="Louis"><option value="Mont-Bouët"><option value="Nkembo">
+  <option value="Nombakélé"><option value="Nzeng-Ayong"><option value="Okala"><option value="Owendo">
+  <option value="PK8"><option value="Plein Ciel"><option value="Sablière"><option value="Venez-Voir">
+</datalist>
+
+<nav id="nav" class="nav" hidden aria-label="Navigation principale">
+  <button data-go="bientot">Mes objets</button>
+  <button data-go="profil">Mon profil</button>
+</nav>
+
+<footer class="pied">
+  <p>Un service PC-INFORMATIQUE · Libreville, Gabon</p>
+  <p>Contact : +241 60 14 19 24 · pcinformatique28@gmail.com</p>
+</footer>
+
+<noscript><p class="centre">TROC MAISON a besoin de JavaScript pour fonctionner.</p></noscript>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
