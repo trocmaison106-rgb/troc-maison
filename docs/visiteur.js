@@ -44,13 +44,24 @@ d.addEventListener('click',e=>{
   w.classList.add('on');
 },true);
 
-/* Après connexion : rouvre l'annonce touchée */
+/* Après connexion : attend la redirection de l'appli, puis rouvre l'annonce */
+let busy=false;
 function reopen(){
-  if(!pend||!logged())return;
-  const id=pend;save(null);
-  const sel='#liste-annonces [data-item="'+id+'"]';
-  const g=q('[data-go="parcourir"]');if(g)g.click();
-  let n=0;const t=setInterval(()=>{const b=q(sel);if(b){clearInterval(t);b.click();}else if(++n>30)clearInterval(t);},200);
+  if(!pend||busy||!logged())return;
+  busy=true;
+  const id=pend;
+  setTimeout(()=>{
+    const sel='#liste-annonces [data-item="'+id+'"]';
+    const go=()=>{const g=q('[data-go="parcourir"]')||q('.ts-bottom [data-t="ads"]');if(g)g.click();};
+    go();
+    let n=0;
+    const t=setInterval(()=>{
+      const b=q(sel);
+      if(b){clearInterval(t);save(null);busy=false;b.click();}
+      else if(++n>40){clearInterval(t);save(null);busy=false;}
+      else if(n%10===0)go();
+    },200);
+  },1500);
 }
 new MutationObserver(reopen).observe(d.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});
 reopen();
