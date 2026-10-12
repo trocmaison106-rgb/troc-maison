@@ -122,7 +122,7 @@ function pickPhoto(file,av,u){
     const S=256,c=document.createElement('canvas');c.width=c.height=S;
     const m=Math.min(im.width,im.height),sx=(im.width-m)/2,sy=(im.height-m)/2;
     c.getContext('2d').drawImage(im,sx,sy,m,m,0,0,S,S);
-    const url=c.toDataURL('image/jpeg',0.8);
+    let url=c.toDataURL('image/jpeg',0.8);try{const bl=await new Promise(ok=>c.toBlob(ok,'image/jpeg',0.85));if(bl){const fd=new FormData();fd.append('file',bl,'profil.jpg');fd.append('upload_preset','troc_maison');const rr=await fetch('https://api.cloudinary.com/v1_1/phkmhizg/image/upload',{method:'POST',body:fd});if(rr.ok){const jj=await rr.json();if(jj.secure_url)url=jj.secure_url;}}}catch(e){}
     av.replaceChildren();const i=document.createElement('img');i.src=url;i.alt='';av.appendChild(i);
     try{await FS.setDoc(FS.doc(M.db,'users',u.uid),{photo:url,updatedAt:FS.serverTimestamp()},{merge:true});}
     catch(e){alert('Photo non enregistrée : '+e.message);}
