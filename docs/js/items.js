@@ -53,10 +53,17 @@ async function envoyer(blob) {
   return (await r.json()).secure_url;
 }
 
+function collage(ph) {
+  const l = (ph || []).slice(0, 4);
+  if (!l.length) return h("div", { class: "collage n1" }, h("div", { class: "sans-photo" }));
+  return h("div", { class: "collage n" + l.length },
+    l.map((src) => h("img", { src, alt: "", loading: "lazy" })));
+}
+
 function carte(it, actions) {
   const photo = it.photos && it.photos[0];
   const corps = [
-    photo ? h("img", { src: photo, alt: "", loading: "lazy" }) : h("div", { class: "sans-photo" }),
+    collage(it.photos),
     h("b", {}, it.titre),
     h("span", {}, it.quartier ? it.quartier + " · " + it.ville : it.ville),
     h("span", {}, it.categorie + " · " + fcfa(it.valeurEstimee))

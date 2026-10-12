@@ -9,3 +9,52 @@
 .actions .danger{border-color:#b3261e;color:#b3261e}
 .grande{width:100%;border-radius:12px;margin-bottom:10px}
 textarea,#f-q,#f-cat{width:100%;font:inherit;padding:12px;border:2px solid #9aa8a0;border-radius:10px;box-sizing:border-box;margin-bottom:8px}
+
+/* ===== Cartes v3 : grille centrée, compacte, collage ===== */
+:has(> .carte) {
+  display: flex !important; flex-wrap: wrap; justify-content: center;
+  align-items: stretch; gap: 10px;
+  width: 100%; max-width: 720px; margin-inline: auto;
+  padding: 4px 10px 16px; box-sizing: border-box;
+}
+.carte {
+  flex: 0 0 calc((100% - 10px) / 2); max-width: calc((100% - 10px) / 2);
+  display: flex; flex-direction: column; box-sizing: border-box;
+  border-radius: 12px; overflow: hidden; background: #fff;
+  border: 1px solid #e0dccf; box-shadow: 0 1px 6px rgba(0,0,0,.08);
+}
+@media (min-width: 640px) {
+  .carte { flex-basis: calc((100% - 20px) / 3); max-width: calc((100% - 20px) / 3); }
+}
+.carte-btn { flex: 1; padding-bottom: 6px !important; }
+.collage {
+  display: grid; gap: 2px; width: 100%; aspect-ratio: 4 / 3;
+  overflow: hidden; background: #fff;
+}
+.collage img, .collage .sans-photo {
+  width: 100%; height: 100%; aspect-ratio: auto; object-fit: cover; display: block;
+}
+.collage.n2 { grid-template-columns: 1fr 1fr; }
+.collage.n3 { grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr; }
+.collage.n3 > :first-child { grid-row: 1 / 3; }
+.collage.n4 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
+.carte-btn .collage img { aspect-ratio: auto; }
+.carte-btn b {
+  -webkit-line-clamp: 1 !important; padding: 6px 8px 0 !important;
+  font-size: .85rem !important; white-space: nowrap; text-overflow: ellipsis;
+}
+.carte-btn span { padding: 1px 8px 0 !important; font-size: .7rem !important; }
+.carte-btn span:last-child { font-size: .78rem !important; padding-bottom: 4px !important; }
+.carte .actions {
+  display: flex; flex-wrap: wrap; gap: 4px;
+  padding: 0 8px 8px !important; margin-top: auto;
+}
+.carte .actions > :not(button) {
+  flex: 1 0 100%; margin: 0 !important; font-size: .7rem !important;
+  font-style: normal; font-weight: 700; color: #0b6b45;
+}
+.carte .actions button {
+  flex: 1 1 calc(50% - 2px); width: auto !important; margin: 0 !important;
+  padding: 5px 4px !important; font-size: .68rem !important; border-radius: 8px;
+}
+.carte .actions button.danger { flex-basis: 100%; }
