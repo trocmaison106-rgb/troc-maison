@@ -96,3 +96,11 @@ main{overflow-x:clip}
 .ts-sheet{bottom:54px!important;z-index:80!important}
 .ts-sheet>div{max-height:calc(100vh - 150px)!important}
 .ts-toast{position:fixed;left:12px;right:12px;margin:0 auto;width:fit-content;bottom:68px;z-index:1000;background:#0d3b2a;color:#fff;border:1px solid #f6e27a;border-radius:14px;padding:10px 16px;font-size:.85rem;max-width:88%;text-align:center;box-shadow:0 6px 18px #0006;animation:vIn .3s both}
+/* ===== Cartes compactes pleine largeur ===== */
+*:has(>.carte){grid-template-columns:1fr!important;gap:8px!important}
+.carte{border-radius:14px!important}
+.carte .carte-btn{display:grid!important;grid-template-columns:92px minmax(0,1fr);column-gap:10px;align-items:start;padding:8px!important}
+.carte .carte-btn .ts-photo{grid-column:1;grid-row:1/span 8;width:92px;border-radius:10px;align-self:start}
+.carte .carte-btn>:not(.ts-photo){grid-column:2}
+.carte .carte-btn .ts-photo+*{display:block!important;-webkit-line-clamp:unset!important;overflow:visible!important;padding:0!important;font-size:.9rem!important}
+.carte .carte-btn span{font-size:.8rem;line-height:1.3}
