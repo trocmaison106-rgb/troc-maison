@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Démo TROC MAISON</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:560px;margin:0 auto;padding:18px;background:#f7f5ef;color:#1d1d1d}
+h1{color:#0d7045;font-size:1.3rem}
+button{display:block;width:100%;margin:10px 0;padding:14px;border:0;border-radius:12px;background:#0d7045;color:#fff;font-size:1rem;font-weight:600}
+button.rm{background:#b3261e}
+button:disabled{opacity:.4}
+pre{background:#fff;border-radius:10px;padding:10px;font-size:.8rem;white-space:pre-wrap;max-height:320px;overflow:auto}
+</style></head><body>
+<h1>Annonces de démo (Libreville)</h1>
+<p id="st">Vérification de la connexion…</p>
+<button id="go" disabled>Créer 20 annonces de démo</button>
+<button id="rm" class="rm" disabled>Supprimer les annonces de démo</button>
+<pre id="lg"></pre>
+<script type="module">
+import {auth,db} from './js/firebase-config.js';
+import {onAuthStateChanged} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
+import {collection,addDoc,getDocs,query,where,limit,deleteDoc,serverTimestamp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
+const $=s=>document.querySelector(s),lg=m=>{$('#lg').textContent+=m+'\n';};
+const TAG='DEMO · ';
+// [titre, catégorie, emoji, état, prix FCFA, quartier, description, recherché, vendeur, [lat,lng] approx.]
+const D=[
+['Samsung Galaxy A14 128 Go','Téléphones','📱','Très bon état',85000,'Akébé','Écran sans rayure, chargeur d\'origine et boîte incluse. La batterie tient la journée.','Une tablette ou un ordinateur portable','Brice',[0.395,9.462]],
+['Ordinateur portable HP 15 pouces','Informatique','💻','Bon état',150000,'Louis','Core i5, 8 Go de RAM, disque SSD 256 Go. Idéal pour les études et le bureau. Chargeur fourni.','Un smartphone récent','Nadège'],
+['Téléviseur LG 43 pouces','Électroménager','📺','Très bon état',120000,'Nombakélé','Écran plat Full HD, télécommande et support mural inclus. Fonctionne parfaitement.','Un réfrigérateur','Hervé',[0.402,9.452]],
+['Réfrigérateur Haier double porte','Électroménager','🧊','Bon état',180000,'Batterie IV','Froid très efficace, tiroir à légumes, peu de consommation. À récupérer sur place.','Un congélateur ou un téléviseur','Prisca'],
+['Ventilateur sur pied','Électroménager','🌀','Bon état',15000,'Mont-Bouët','Trois vitesses, hauteur réglable, hélice propre. Très utile en saison chaude.','Une bouilloire ou un fer à repasser','Cédric'],
+['Canapé 3 places en tissu','Meubles','🛋️','Bon état',90000,'Glass','Tissu gris, structure solide, housses lavables. Convient pour un salon de taille moyenne.','Une table basse et des fauteuils','Léa',[0.391,9.455]],
+['Lit 2 places avec matelas','Meubles','🛏️','Très bon état',110000,'Lalala','Cadre en bois massif et matelas à ressorts, très peu utilisé. Démontable pour le transport.','Une armoire','Rodrigue'],
+['Table à manger avec 4 chaises','Meubles','🪑','Bon état',70000,'Okala','Table en bois vernie, 4 chaises assorties. Quelques traces d\'usage normales.','Un buffet ou une étagère','Sylvie'],
+['Robe en wax, taille M','Vêtements','👗','Neuf',12000,'Likouala','Robe longue en tissu wax, jamais portée, coupe élégante pour cérémonie.','Un autre vêtement femme taille M','Ornella'],
+['Costume homme taille 50','Vêtements','🤵','Très bon état',35000,'Louis','Costume noir deux pièces, porté deux fois. Pantalon et veste en bon état.','Des chemises ou des chaussures de ville','Gaël'],
+['Sac à main en cuir','Accessoires','👜','Bon état',18000,'Akébé','Sac marron avec bandoulière, plusieurs compartiments, fermeture en bon état.','Un sac de voyage','Chimène',[0.396,9.46]],
+['Baskets pointure 42','Chaussures','👟','Très bon état',25000,'Charbonnages','Baskets de sport confortables, semelle en très bon état, lavées et prêtes à porter.','Des chaussures pointure 43','Éric'],
+['Poussette bébé pliable','Bébé et enfants','👶','Très bon état',40000,'Akanda','Se plie facilement, capote et harnais 5 points, grandes roues. Convient dès la naissance.','Un lit parapluie ou un siège auto','Mireille',[0.49,9.49]],
+['Vélo enfant 16 pouces','Bébé et enfants','🚲','Bon état',20000,'Angondjé','Pour enfant de 5 à 8 ans, freins vérifiés, petites roues amovibles incluses.','Une trottinette','Fabrice'],
+['Manuels scolaires de 3e','Livres','📚','Bon état',15000,'Nzeng-Ayong','Lot de 6 manuels du collège (maths, français, SVT, histoire-géo…). Peu annotés.','Des manuels de seconde','Estelle'],
+['Ballon et crampons de football','Sport','⚽','Bon état',14000,'PK8','Ballon taille 5 et crampons pointure 41. Parfaits pour le tournoi du quartier.','Un maillot ou des protège-tibias','Jordan'],
+['Scooter 125 cc','Moto','🛵','Bon état',350000,'Owendo','Révisé récemment, pneus neufs, papiers en règle. Économique pour les trajets en ville.','Une petite voiture ou un autre scooter','Armand',[0.29,9.5]],
+['Perceuse sans fil Bosch','Outils','🔧','Très bon état',45000,'Sotega','Deux batteries, chargeur et mallette avec des forets. Utilisée pour quelques chantiers seulement.','Une meuleuse ou une scie','Dieudonné'],
+['Lot de casseroles et marmite','Cuisine','🍲','Bon état',22000,'Mont-Bouët','Grande marmite en aluminium et 4 casseroles avec couvercles. Idéal pour les repas de famille.','Un mixeur ou un cuiseur à riz','Solange'],
+['Groupe électrogène 2,5 kVA','Énergie','⚡','Bon état',130000,'Oloumi','Démarrage facile, entretien à jour, idéal pour les coupures de courant. Réservoir 15 L.','Des panneaux solaires ou une batterie','Hugues',[0.41,9.47]]
+];
+const norm=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+async function realCats(){
+  try{const t=await (await fetch('index.html')).text();
+    return [...new DOMParser().parseFromString(t,'text/html').querySelectorAll('select option')].map(o=>(o.value||o.textContent).trim()).filter(Boolean);
+  }catch(e){return [];}
+}
+function pic(e,h,v){
+  const c=document.createElement('canvas');c.width=480;c.height=360;const x=c.getContext('2d');
+  const g=x.createLinearGradient(0,0,480,360);
+  g.addColorStop(0,'hsl('+h+',60%,'+(v?82:70)+'%)');g.addColorStop(1,'hsl('+((h+40)%360)+',55%,'+(v?60:50)+'%)');
+  x.fillStyle=g;x.fillRect(0,0,480,360);x.textAlign='center';x.textBaseline='middle';
+  if(v){x.globalAlpha=.25;x.font='64px sans-serif';
+    for(let i=0;i<6;i++)for(let j=0;j<5;j++)x.fillText(e,40+i*80+(j%2)*40,36+j*72);
+    x.globalAlpha=1;x.font='140px sans-serif';x.fillText(e,240,180);
+  }else{x.font='190px sans-serif';x.fillText(e,240,180);}
+  return c.toDataURL('image/jpeg',.6);
+}
+let user=null;
+onAuthStateChanged(auth,u=>{
+  user=u;
+  $('#go').disabled=$('#rm').disabled=!u;
+  $('#st').textContent=u?'Connecté. Les annonces seront créées avec votre compte.':'Vous n\'êtes pas connecté. Ouvrez l\'appli, connectez-vous, puis revenez sur cette page.';
+});
+$('#go').onclick=async()=>{
+  $('#go').disabled=true;$('#lg').textContent='';
+  const cats=await realCats();
+  lg(cats.length?'Catégories trouvées : '+cats.join(', '):'Catégories non lues : noms par défaut utilisés.');
+  let ok=0;
+  for(let i=0;i<D.length;i++){
+    const a=D[i],h=(i*37)%360;
+    const cat=cats.find(c=>norm(c).startsWith(norm(a[1]).slice(0,4)))||a[1];
+    const data={ownerId:user.uid,ownerPrenom:a[8],titre:a[0],description:a[6],categorie:cat,etat:a[3],valeurEstimee:a[4],
+      recherche:TAG+a[7],photos:[pic(a[2],h,0),pic(a[2],h,1)],quartier:a[5],ville:'Libreville',statut:'actif'};
+    const send=async d=>addDoc(collection(db,'items'),Object.assign({createdAt:serverTimestamp(),updatedAt:serverTimestamp()},d));
+    try{
+      try{await send(a[9]?Object.assign({geo:{lat:a[9][0],lng:a[9][1]}},data):data);}
+      catch(e){if(a[9]&&/permission/i.test(e.message)){await send(data);lg('  (sans position : règles Firestore à mettre à jour)');}else throw e;}
+      ok++;lg('✓ '+(i+1)+'/'+D.length+' '+a[0]);
+    }catch(e){lg('✗ '+a[0]+' : '+e.message);}
+  }
+  $('#st').textContent=ok+' annonce(s) créée(s) sur '+D.length+'.';
+  $('#go').disabled=false;
+};
+$('#rm').onclick=async()=>{
+  if(!confirm('Supprimer toutes vos annonces de démo ?'))return;
+  $('#lg').textContent='';let n=0;
+  const s=await getDocs(query(collection(db,'items'),where('ownerId','==',user.uid),limit(200)));
+  for(const d of s.docs){if((d.data().recherche||'').startsWith(TAG)){await deleteDoc(d.ref);n++;}}
+  $('#st').textContent=n+' annonce(s) de démo supprimée(s).';
+};
+</script></body></html>
