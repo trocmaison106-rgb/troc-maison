@@ -52,3 +52,38 @@ body{background:radial-gradient(circle at 15% 0,#f6e27a26,transparent 45%),radia
 @keyframes rip{to{transform:scale(3);opacity:0}}
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important;animation-iteration-count:1!important}}
 [data-view=accueil] h1{font-size:1.3rem;letter-spacing:.5px;text-transform:uppercase}
+/* ===== Sans déformation + pages qui glissent ===== */
+@keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes pgF{from{opacity:0;transform:translateX(38px)}to{opacity:1;transform:none}}
+@keyframes pgB{from{opacity:0;transform:translateX(-38px)}to{opacity:1;transform:none}}
+@keyframes ico{0%{transform:translateY(0)}40%{transform:translateY(-6px)}100%{transform:translateY(-2px)}}
+@keyframes pulse2{0%{box-shadow:0 0 0 0 #f6e27a99,0 2px 6px #0006}100%{box-shadow:0 0 0 14px #f6e27a00,0 2px 6px #0006}}
+html,body{overflow-x:hidden}
+[data-view]:not([hidden]){animation:pgF .4s cubic-bezier(.22,.8,.3,1) both}
+html[data-dir=back] [data-view]:not([hidden]){animation-name:pgB}
+.etapes li::after,.ts-tile::after,.btn::after{transform:none}
+.ts-tile:active,.etapes li:active,[data-view=accueil] .btn:active{transform:none;filter:brightness(.93)}
+/* ===== Grille d'annonces ===== */
+*:has(>.carte){display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important;justify-content:stretch!important;padding:0 12px!important;margin:12px 0!important}
+.carte{display:flex!important;flex-direction:column;width:auto!important;max-width:none!important;min-width:0!important;margin:0!important;overflow:hidden;border-radius:20px!important;background:#fff;border:1px solid #e6d9a8!important;box-shadow:0 6px 16px #0b6b4522}
+.carte .carte-btn{display:flex!important;flex-direction:column;align-items:stretch;flex:1;width:100%;padding:0!important;border:0!important;background:none!important;text-align:left!important;white-space:normal!important;color:inherit}
+.carte .carte-btn>*{max-width:100%;white-space:normal!important;overflow-wrap:anywhere;word-break:break-word;text-align:left}
+.carte .carte-btn span{display:block}
+.ts-photo{display:grid;gap:2px;aspect-ratio:1/1;width:100%;overflow:hidden;background:#e7f4ee}
+.ts-photo[data-n="1"]{grid-template-columns:1fr}
+.ts-photo[data-n="2"]{grid-template-columns:1fr 1fr}
+.ts-photo[data-n="3"],.ts-photo[data-n="4"]{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}
+.ts-photo[data-n="3"] img:first-child{grid-row:span 2}
+.ts-photo img{width:100%!important;height:100%!important;max-width:none!important;min-height:0;object-fit:cover;display:block;border-radius:0!important;aspect-ratio:auto!important}
+.ts-photo[data-n="0"]::after{content:"📦";display:grid;place-items:center;font-size:2rem}
+.carte .carte-btn .ts-photo+*{display:-webkit-box!important;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;padding:8px 10px 0!important;font-size:.92rem!important;font-weight:700;line-height:1.25;color:#1a1a1a}
+.carte .actions button{flex:1 1 100%!important}
+/* ===== Barre du bas ===== */
+body{padding-bottom:58px!important}
+.ts-bottom{height:54px!important;background:linear-gradient(180deg,#0f7a50,#0b5a3c)!important;border-top:1px solid #f6e27a66!important;box-shadow:0 -4px 14px #0d3b2a55}
+.ts-bottom button{color:#ffffffb3!important;font-size:.64rem!important;gap:1px!important;background:none!important;transition:color .25s}
+.ts-bottom button svg{width:22px!important;height:22px!important}
+.ts-bottom button.on{color:#fff!important;background:none!important}
+.ts-bottom button.on svg{animation:ico .45s ease both}
+.ts-bottom button.pub svg{width:24px!important;height:24px!important;padding:6px;margin-top:-20px;background:linear-gradient(135deg,#f6e27a,#d4af37)!important;color:#0d3b2a!important;animation:pulse2 2.2s infinite!important}
+.ts-ind{position:absolute;left:0;bottom:3px;width:28px;height:4px;border-radius:3px;background:linear-gradient(90deg,#fdd835,#f6e27a);box-shadow:0 0 8px #fdd83599;transition:transform .4s cubic-bezier(.3,1.5,.5,1),opacity .2s;opacity:0;pointer-events:none}
