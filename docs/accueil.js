@@ -27,7 +27,7 @@ function open(id){
   let n=0;const t=setInterval(()=>{const b2=f();if(b2){clearInterval(t);b2.click();}else if(++n>25)clearInterval(t);},150);
 }
 function card(it){
-  const c=el('div','ac-card'),m=el('div','ac-main'),ph=el('div','ac-ph'),ps=(it.photos||[]).slice(0,2);
+  const c=el('div','ac-card');c.dataset.id=it.id;const m=el('div','ac-main'),ph=el('div','ac-ph'),ps=(it.photos||[]).slice(0,2);
   if(ps.length){ps.forEach(p=>{const i=el('img');i.src=p;i.alt='';i.loading='lazy';ph.append(i);});if(ps.length===1)ph.classList.add('n1');}
   else{ph.textContent='📦';ph.classList.add('n1');}
   const inf=el('div','ac-info');
