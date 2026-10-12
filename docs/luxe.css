@@ -51,3 +51,4 @@ body{background:radial-gradient(circle at 15% 0,#f6e27a26,transparent 45%),radia
 .ts-rip{position:absolute;border-radius:50%;background:#f6e27a88;transform:scale(0);animation:rip .6s ease-out forwards;pointer-events:none}
 @keyframes rip{to{transform:scale(3);opacity:0}}
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important;animation-iteration-count:1!important}}
+[data-view=accueil] h1{font-size:1.3rem;letter-spacing:.5px;text-transform:uppercase}
