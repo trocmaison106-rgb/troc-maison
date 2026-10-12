@@ -25,8 +25,8 @@ const T={
  pub:()=>user?go('publier'):go('connexion'),
  ads:()=>user?go('parcourir'):go('connexion'),
  mine:()=>go('mesobjets'),
- prof:()=>user?go('profil'):go('connexion'),
- login:()=>user?go('profil'):go('connexion'),
+ prof:()=>user?profil():go('connexion'),
+ login:()=>user?profil():go('connexion'),
  notif:()=>sheet('soon'),fav:()=>sheet('soon'),msg:()=>sheet('soon'),
  about:()=>sheet('about'),how:()=>sheet('how'),rules:()=>sheet('rules'),
  out:()=>{const b=[...document.querySelectorAll('button')].find(e=>!e.closest('.ts-drawer')&&/déconnexion/i.test(e.textContent));if(b)b.click();}
@@ -80,6 +80,6 @@ window.TrocShell={
 };
 /* Connexion : suit l'état Firebase de votre appli */
 import('./js/firebase-config.js').then(m=>import('https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js').then(a=>{
-  a.onAuthStateChanged(m.auth,u=>TrocShell.setUser(u?{photo:u.photoURL}:null));
+  a.onAuthStateChanged(m.auth,u=>TrocShell.setUser(u?{photo:u.photoURL,name:u.displayName,email:u.email}:null));
 })).catch(()=>{});
 })();
