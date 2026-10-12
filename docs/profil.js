@@ -25,8 +25,8 @@ async function open(){
   const head=el('div','tp-head');
   const x=el('button','tp-x','✕');x.onclick=shut;
   const av=el('div','tp-av');
-  if(u.photoURL){const i=el('img');i.src=u.photoURL;i.alt='';av.appendChild(i);}else av.textContent=nom.charAt(0).toUpperCase();
-  head.append(x,av,el('h2','',nom));
+  const ph0=d.photo||u.photoURL;if(ph0){const i=el('img');i.src=ph0;i.alt='';av.appendChild(i);}else av.textContent=nom.charAt(0).toUpperCase();
+  const cam=el('button','tp-cam','📷 Changer la photo'),fi=el('input');fi.type='file';fi.accept='image/*';fi.style.display='none';cam.onclick=()=>fi.click();fi.onchange=()=>pickPhoto(fi.files[0],av,u);head.append(x,av,cam,fi,el('h2','',nom));
   const lieu=[d.quartier,d.ville].filter(Boolean).join(' · ');
   if(lieu)head.append(el('p','','📍 '+lieu));
   head.append(el('p','',[d.telephone,u.email].filter(Boolean).join(' · ')));
@@ -85,4 +85,33 @@ async function open(){
   tabs.firstChild.click();
 }
 window.TrocProfil={open};
+function pickPhoto(file,av,u){
+  if(!file)return;
+  const r=new FileReader();
+  r.onload=()=>{const im=new Image();im.onload=async()=>{
+    const S=256,c=document.createElement('canvas');c.width=c.height=S;
+    const m=Math.min(im.width,im.height),sx=(im.width-m)/2,sy=(im.height-m)/2;
+    c.getContext('2d').drawImage(im,sx,sy,m,m,0,0,S,S);
+    const url=c.toDataURL('image/jpeg',0.8);
+    av.replaceChildren();const i=document.createElement('img');i.src=url;i.alt='';av.appendChild(i);
+    try{await FS.setDoc(FS.doc(M.db,'users',u.uid),{photo:url},{merge:true});}
+    catch(e){alert('Photo non enregistrée : '+e.message);}
+    if(window.TrocShell)TrocShell.setUser({photo:url,name:null,email:u.email});
+  };im.src=r.result;};
+  r.readAsDataURL(file);
+}
+})();
+/* Miniature photo dans l'entête */
+(async function(){
+ try{
+  const M=await import('./js/firebase-config.js');
+  const A=await import('https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js');
+  const F=await import('https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js');
+  A.onAuthStateChanged(M.auth,async u=>{
+   if(!u)return;
+   try{const s=await F.getDoc(F.doc(M.db,'users',u.uid));
+    const p=s.exists()&&s.data().photo;
+    if(p&&window.TrocShell)TrocShell.setUser({photo:p,name:s.data().prenom,email:u.email});}catch(e){}
+  });
+ }catch(e){}
 })();
