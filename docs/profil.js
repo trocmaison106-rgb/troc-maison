@@ -106,9 +106,9 @@ function contactBox(u,d,items){
   sv.onclick=async()=>{
     const num=norm(wa.value),data={whatsapp:num,geo:geo,partage:ck.checked};
     try{
-      await FS.setDoc(FS.doc(M.db,'users',u.uid),data,{merge:true});
+      await FS.setDoc(FS.doc(M.db,'users',u.uid),Object.assign({updatedAt:FS.serverTimestamp()},data),{merge:true});
       const pub=ck.checked?{whatsapp:num,geo:geo}:{whatsapp:'',geo:null};
-      for(const it of items)await FS.updateDoc(FS.doc(M.db,'items',it.id),pub);
+      for(const it of items)await FS.updateDoc(FS.doc(M.db,'items',it.id),Object.assign({updatedAt:FS.serverTimestamp()},pub));
       Object.assign(d,data);st.textContent='Enregistré ✓';
     }catch(e){alert('Erreur : '+e.message);}
   };
@@ -124,7 +124,7 @@ function pickPhoto(file,av,u){
     c.getContext('2d').drawImage(im,sx,sy,m,m,0,0,S,S);
     const url=c.toDataURL('image/jpeg',0.8);
     av.replaceChildren();const i=document.createElement('img');i.src=url;i.alt='';av.appendChild(i);
-    try{await FS.setDoc(FS.doc(M.db,'users',u.uid),{photo:url},{merge:true});}
+    try{await FS.setDoc(FS.doc(M.db,'users',u.uid),{photo:url,updatedAt:FS.serverTimestamp()},{merge:true});}
     catch(e){alert('Photo non enregistrée : '+e.message);}
     if(window.TrocShell)TrocShell.setUser({photo:url,name:null,email:u.email});
   };im.src=r.result;};
