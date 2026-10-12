@@ -43,3 +43,15 @@ new MutationObserver(run).observe(d.body,{childList:true,subtree:true});run();
 addEventListener('error',e=>{if(!e.message)return;const t=document.createElement('div');
 t.style.cssText='position:fixed;top:60px;left:8px;right:8px;z-index:9999;background:#b00020;color:#fff;padding:8px;font-size:.7rem;border-radius:8px';
 t.textContent=e.message+' ('+(e.filename||'').split('/').pop()+':'+e.lineno+')';document.body.appendChild(t);setTimeout(()=>t.remove(),9000);});
+/* Navigation : ferme la fenêtre ouverte, explique la redirection si non connecté */
+(function(){
+const d=document;
+function toast(t){const o=d.querySelector('.ts-toast');if(o)o.remove();
+  const e=d.createElement('div');e.className='ts-toast';e.textContent=t;d.body.appendChild(e);setTimeout(()=>e.remove(),2600);}
+d.addEventListener('click',e=>{
+  const b=e.target.closest('[data-t]');if(!b)return;
+  const s=d.querySelector('#ts-sheet');if(s)s.classList.remove('on');
+  const logged=!!d.querySelector('#ts-user .ts-dot');
+  if(!logged&&['pub','ads','mine','prof'].indexOf(b.dataset.t)>-1)toast('Connectez-vous pour accéder à cette page');
+},true);
+})();
