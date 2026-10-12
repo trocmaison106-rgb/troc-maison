@@ -41,7 +41,7 @@ const T={
  login:()=>user?profil():go('connexion'),
  notif:()=>sheet('soon'),fav:()=>sheet('soon'),msg:()=>sheet('soon'),
  about:()=>sheet('about'),how:()=>sheet('how'),rules:()=>sheet('rules'),
- out:()=>{const b=[...document.querySelectorAll('button')].find(e=>!e.closest('.ts-drawer')&&/déconnexion/i.test(e.textContent));if(b)b.click();}
+ out:()=>{const b=document.querySelector("#btn-deconnexion");if(b){b.click();return;}import("./js/firebase-config.js").then(m=>import("https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js").then(a=>a.signOut(m.auth))).catch(()=>{});}
 };
 document.body.insertAdjacentHTML('afterbegin',`
 <header class="ts-header">
