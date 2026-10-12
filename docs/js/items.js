@@ -26,19 +26,30 @@ const fcfa = (n) => Number(n || 0).toLocaleString("fr-FR") + " FCFA";
 const recent = (a, b) => ((b.createdAt && b.createdAt.seconds) || 0) - ((a.createdAt && a.createdAt.seconds) || 0);
 
 async function compresser(file) {
-  const bmp = await createImageBitmap(file);
-  const r = Math.min(1, 1200 / Math.max(bmp.width, bmp.height));
-  const c = document.createElement("canvas");
-  c.width = Math.round(bmp.width * r); c.height = Math.round(bmp.height * r);
-  c.getContext("2d").drawImage(bmp, 0, 0, c.width, c.height);
-  return new Promise((res) => c.toBlob(res, "image/jpeg", 0.8));
+  try {
+    let bmp;
+    try { bmp = await createImageBitmap(file); }
+    catch (e) {
+      bmp = await new Promise((ok, ko) => {
+        const i = new Image();
+        i.onload = () => ok(i); i.onerror = ko; i.src = URL.createObjectURL(file);
+      });
+    }
+    const w = bmp.width || bmp.naturalWidth, hh = bmp.height || bmp.naturalHeight;
+    const r = Math.min(1, 1200 / Math.max(w, hh));
+    const c = document.createElement("canvas");
+    c.width = Math.round(w * r); c.height = Math.round(hh * r);
+    c.getContext("2d").drawImage(bmp, 0, 0, c.width, c.height);
+    const blob = await new Promise((res) => c.toBlob(res, "image/jpeg", 0.8));
+    return blob || file;
+  } catch (e) { return file; }
 }
 
 async function envoyer(blob) {
   const fd = new FormData();
-  fd.append("file", blob); fd.append("upload_preset", PRESET);
+  fd.append("file", blob, "photo.jpg"); fd.append("upload_preset", PRESET);
   const r = await fetch("https://api.cloudinary.com/v1_1/" + CLOUD + "/image/upload", { method: "POST", body: fd });
-  if (!r.ok) throw new Error("upload");
+  if (!r.ok) throw new Error("photo " + r.status + " " + (await r.text()).slice(0, 80));
   return (await r.json()).secure_url;
 }
 
@@ -144,7 +155,7 @@ export function initItems(show) {
       });
       f.reset(); show("mesobjets"); chargerMesObjets();
     } catch (err) {
-      msg(err.code === "permission-denied" ? "Refusé : publiez d'abord les nouvelles règles Firestore." : "Échec de l'envoi. Vérifiez votre connexion et réessayez.");
+      console.error(err); msg(err.code === "permission-denied" ? "Refusé : publiez d'abord les nouvelles règles Firestore." : "Échec de l'envoi (" + (err.code || err.message) + "). Réessayez.");
     } finally { b.disabled = false; b.textContent = "Publier"; }
   });
 }
