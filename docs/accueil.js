@@ -46,13 +46,13 @@ function card(it){
 function render(){
   const f=ALL.filter(it=>(!fc||it.categorie===fc)&&(!fq||[it.titre,it.description,it.categorie,it.quartier,it.ville].join(' ').toLowerCase().includes(fq)));
   list.className='ac-list m-'+mode;
-  list.replaceChildren(...f.slice(0,shown).map(card));
+  if(window.TrocRoue&&TrocRoue.draw(f,card,list,cnt,more))return;list.replaceChildren(...f.slice(0,shown).map(card));
   modes.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.m===mode));
   cnt.textContent=ERR?'Impossible de charger les annonces pour le moment.':f.length?(Math.min(shown,f.length)+' sur '+f.length+' annonce'+(f.length>1?'s':'')):(ALL.length?'Aucun résultat.':'Aucune annonce pour le moment.');
   more.style.display=f.length>shown?'block':'none';
   more.textContent='Voir plus ('+(f.length-shown)+')';
 }
-async function load(){
+window.TrocAccRender=render;async function load(){
   ERR=false;
   try{
     M=M||await import('./js/firebase-config.js');
