@@ -35,3 +35,7 @@ header:not(.ts-header),nav:not(.ts-bottom){display:none!important}
 .ts-brand{cursor:pointer}
 .ts-bottom{display:grid;grid-template-columns:repeat(5,1fr)}
 .ts-bottom button{min-width:0;font-size:10px}
+/* À propos : bloc rectangulaire centré */
+#ts-sheet .s-about{text-align:center}
+#ts-sheet .s-about p{text-align:center;margin:10px 0;line-height:1.5}
+#ts-sheet .s-about p:first-of-type{border:1px solid rgba(128,128,128,.45);border-radius:12px;padding:14px 16px;margin:14px auto;max-width:92%;text-align:justify}

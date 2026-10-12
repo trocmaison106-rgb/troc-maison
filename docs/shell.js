@@ -19,7 +19,7 @@ const SHEETS={
  rules:['Conseils de sécurité','<ul><li>Rencontrez-vous dans un lieu public et fréquenté.</li><li>Venez accompagné si possible, de jour de préférence.</li><li>Vérifiez l\'objet avant d\'échanger.</li><li>Ne payez jamais d\'avance et ne donnez pas d\'informations bancaires.</li></ul>'],
  soon:['Bientôt disponible','<p>Cette fonction arrive prochainement.</p>']
 };
-function sheet(k){const s=SHEETS[k];q('#ts-sheet div').innerHTML='<h2>'+s[0]+'</h2>'+s[1]+'<button id="ts-x">Fermer</button>';q('#ts-sheet').classList.add('on');q('#ts-x').onclick=()=>q('#ts-sheet').classList.remove('on');}
+function sheet(k){const s=SHEETS[k];q('#ts-sheet div').className='s-'+k;q('#ts-sheet div').innerHTML='<h2>'+s[0]+'</h2>'+s[1]+'<button id="ts-x">Fermer</button>';q('#ts-sheet').classList.add('on');q('#ts-x').onclick=()=>q('#ts-sheet').classList.remove('on');}
 function profil(){
   SHEETS.profil=['Mon profil','<div id="ts-pf" style="text-align:center"></div>'];
   sheet('profil');
