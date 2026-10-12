@@ -51,6 +51,7 @@ document.body.insertAdjacentHTML('afterbegin',`
 </aside>
 <nav class="ts-bottom">
  <button data-t="home" data-k="home" class="on">${svg('home')}Accueil</button>
+ <button data-t="prof" data-k="prof">${svg('user')}Profil</button>
  <button data-t="pub" data-k="pub" class="pub">${svg('plus')}Publier</button>
  <button data-t="ads" data-k="ads">${svg('grid')}Annonces</button>
  <button data-t="about">${svg('info')}À propos</button>
