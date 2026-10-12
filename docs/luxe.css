@@ -58,7 +58,6 @@ body{background:radial-gradient(circle at 15% 0,#f6e27a26,transparent 45%),radia
 @keyframes pgB{from{opacity:0;transform:translateX(-38px)}to{opacity:1;transform:none}}
 @keyframes ico{0%{transform:translateY(0)}40%{transform:translateY(-6px)}100%{transform:translateY(-2px)}}
 @keyframes pulse2{0%{box-shadow:0 0 0 0 #f6e27a99,0 2px 6px #0006}100%{box-shadow:0 0 0 14px #f6e27a00,0 2px 6px #0006}}
-html,body{overflow-x:hidden}
 [data-view]:not([hidden]){animation:pgF .4s cubic-bezier(.22,.8,.3,1) both}
 html[data-dir=back] [data-view]:not([hidden]){animation-name:pgB}
 .etapes li::after,.ts-tile::after,.btn::after{transform:none}
@@ -87,3 +86,9 @@ body{padding-bottom:58px!important}
 .ts-bottom button.on svg{animation:ico .45s ease both}
 .ts-bottom button.pub svg{width:24px!important;height:24px!important;padding:6px;margin-top:-20px;background:linear-gradient(135deg,#f6e27a,#d4af37)!important;color:#0d3b2a!important;animation:pulse2 2.2s infinite!important}
 .ts-ind{position:absolute;left:0;bottom:3px;width:28px;height:4px;border-radius:3px;background:linear-gradient(90deg,#fdd835,#f6e27a);box-shadow:0 0 8px #fdd83599;transition:transform .4s cubic-bezier(.3,1.5,.5,1),opacity .2s;opacity:0;pointer-events:none}
+/* Barre du bas : clics fiables + Publier aligné */
+main{overflow-x:clip}
+.ts-bottom{z-index:900!important;touch-action:manipulation}
+.ts-bottom button{pointer-events:auto;-webkit-tap-highlight-color:transparent;position:relative}
+.ts-bottom button>*{pointer-events:none}
+.ts-bottom button.pub svg{box-sizing:content-box!important;width:22px!important;height:22px!important;padding:6px!important;margin:-6px!important;position:relative;top:-9px}

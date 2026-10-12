@@ -39,3 +39,7 @@ d.addEventListener('error',e=>{
 let t;const run=()=>{cancelAnimationFrame(t);t=requestAnimationFrame(()=>d.querySelectorAll('.carte').forEach(fixCard));};
 new MutationObserver(run).observe(d.body,{childList:true,subtree:true});run();
 })();
+/* Diagnostic temporaire : affiche toute erreur JavaScript en haut de l'écran */
+addEventListener('error',e=>{if(!e.message)return;const t=document.createElement('div');
+t.style.cssText='position:fixed;top:60px;left:8px;right:8px;z-index:9999;background:#b00020;color:#fff;padding:8px;font-size:.7rem;border-radius:8px';
+t.textContent=e.message+' ('+(e.filename||'').split('/').pop()+':'+e.lineno+')';document.body.appendChild(t);setTimeout(()=>t.remove(),9000);});
