@@ -1,3 +1,4 @@
+import { notifierRelais } from "./push.js";
 import { auth, db } from "./firebase-config.js";
 import {
   collection, addDoc, getDocs, getDoc, doc, query, where, limit,
@@ -152,7 +153,7 @@ export function initItems(show) {
       if (!p.exists()) return msg("Complétez d'abord votre profil.");
       const urls = [];
       for (const file of files) urls.push(await envoyer(await compresser(file)));
-      await addDoc(collection(db, "items"), {
+      const itemRef = await addDoc(collection(db, "items"), {
         ownerId: u.uid, ownerPrenom: p.data().prenom, titre,
         description: f.description.value.trim(), categorie: f.categorie.value, etat: f.etat.value,
         valeurEstimee: Math.max(0, Math.round(Number(f.valeur.value) || 0)),
@@ -160,7 +161,7 @@ export function initItems(show) {
         quartier: p.data().quartier, ville: p.data().ville, whatsapp: (p.data().partage?p.data().whatsapp:"")||"", geo: (p.data().partage?p.data().geo:null)||null, statut: "actif",
         createdAt: serverTimestamp(), updatedAt: serverTimestamp()
       });
-      f.reset(); show("mesobjets"); chargerMesObjets();
+      notifierRelais(itemRef.id); f.reset(); show("mesobjets"); chargerMesObjets();
     } catch (err) {
       console.error(err); msg(err.code === "permission-denied" ? "Refusé : publiez d'abord les nouvelles règles Firestore." : "Échec de l'envoi (" + (err.code || err.message) + "). Réessayez.");
     } finally { b.disabled = false; b.textContent = "Publier"; }
