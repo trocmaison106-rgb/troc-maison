@@ -2,6 +2,11 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
+    function estAdmin() {
+      return request.auth != null
+        && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
     function profilValide(d) {
       return d.keys().hasOnly(['prenom','telephone','ville','quartier','createdAt','updatedAt'])
         && d.prenom is string && d.prenom.size() > 0 && d.prenom.size() <= 40
@@ -11,21 +16,28 @@ service cloud.firestore {
         && d.updatedAt == request.time;
     }
 
-    // Profil : visible et modifiable uniquement par son propriétaire
-    match /users/{uid} {
+    // Admins : chacun ne peut lire que son propre document, personne n'écrit depuis le site
+    match /admins/{uid} {
       allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if false;
+    }
+
+    // Profils : le propriétaire gère le sien, l'admin voit et modifie tout
+    match /users/{uid} {
+      allow read: if request.auth != null && (request.auth.uid == uid || estAdmin());
       allow create: if request.auth != null && request.auth.uid == uid
         && profilValide(request.resource.data)
         && request.resource.data.createdAt == request.time;
-      allow update: if request.auth != null && request.auth.uid == uid
+      allow update: if (request.auth != null && request.auth.uid == uid
         && profilValide(request.resource.data)
-        && request.resource.data.createdAt == resource.data.createdAt;
-      allow delete: if false;
+        && request.resource.data.createdAt == resource.data.createdAt)
+        || estAdmin();
+      allow delete: if estAdmin();
     }
 
-    // Tout le reste est interdit tant qu'aucune règle n'est écrite
-    match /{document=**} {
-      allow read, write: if false;
+    // Reste de la base : admin uniquement (sauf la collection admins)
+    match /{col}/{doc=**} {
+      allow read, write: if estAdmin() && col != 'admins';
     }
   }
 }
