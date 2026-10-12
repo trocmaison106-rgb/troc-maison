@@ -1,0 +1,11 @@
+.grille{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:16px 0}
+.carte{background:#fff;border:1px solid #cfd8d3;border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.carte-btn{all:unset;cursor:pointer;display:flex;flex-direction:column;gap:4px;padding-bottom:8px;flex:1}
+.carte-btn img,.sans-photo{width:100%;aspect-ratio:1;object-fit:cover;background:#e6ede9}
+.carte-btn b,.carte-btn span{padding:0 10px;font-size:.95rem}
+.carte-btn span{font-size:.8rem;color:#555}
+.actions{display:flex;flex-direction:column;gap:6px;padding:8px}
+.actions button{padding:8px;border-radius:8px;border:1px solid #0d6e44;background:#fff;color:#0d6e44;font-size:.85rem}
+.actions .danger{border-color:#b3261e;color:#b3261e}
+.grande{width:100%;border-radius:12px;margin-bottom:10px}
+textarea,#f-q,#f-cat{width:100%;font:inherit;padding:12px;border:2px solid #9aa8a0;border-radius:10px;box-sizing:border-box;margin-bottom:8px}

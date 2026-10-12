@@ -7,6 +7,9 @@ import {
   doc, getDoc, setDoc, serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
+import { initItems, chargerAnnonces, chargerMesObjets } from "./items.js";
+
+const VUES_APP = ["profil", "parcourir", "mesobjets", "publier", "detail"];
 const $ = (s, r = document) => r.querySelector(s);
 const views = document.querySelectorAll("[data-view]");
 const nav = $("#nav");
@@ -24,7 +27,7 @@ document.querySelectorAll("[data-villes]").forEach((sel) => {
 
 function show(name) {
   views.forEach((v) => { v.hidden = v.dataset.view !== name; });
-  nav.hidden = !["profil", "bientot"].includes(name);
+  nav.hidden = !VUES_APP.includes(name);
   nav.querySelectorAll("[data-go]").forEach((b) => b.classList.toggle("actif", b.dataset.go === name));
   window.scrollTo(0, 0);
 }
@@ -94,8 +97,10 @@ document.addEventListener("click", (e) => {
   e.preventDefault();
   const name = t.dataset.go;
   document.querySelectorAll(".msg").forEach((m) => { m.textContent = ""; });
-  if (["profil", "bientot"].includes(name) && !currentUser) return show("accueil");
+  if (VUES_APP.includes(name) && !currentUser) return show("accueil");
   if (name === "profil") loadProfile();
+  if (name === "parcourir") chargerAnnonces();
+  if (name === "mesobjets") chargerMesObjets();
   show(name);
 });
 
@@ -198,3 +203,5 @@ onAuthStateChanged(auth, async (user) => {
   if (user) { await loadProfile(); show("profil"); }
   else show("accueil");
 });
+
+initItems(show);

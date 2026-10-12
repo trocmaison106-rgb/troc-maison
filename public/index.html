@@ -11,6 +11,7 @@
 <link rel="apple-touch-icon" href="icons/apple-touch-icon-180.png">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/phase2.css">
 </head>
 <body>
 <header class="entete">
@@ -119,10 +120,48 @@
     <button class="btn btn-clair" id="btn-deconnexion" type="button">Me déconnecter</button>
   </section>
 
-  <section data-view="bientot" hidden>
+  <section data-view="parcourir" hidden>
+    <h1>Objets à troquer</h1>
+    <input id="f-q" type="search" placeholder="Rechercher un objet…" maxlength="60">
+    <select id="f-cat" aria-label="Catégorie"></select>
+    <div id="liste-annonces" class="grille"></div>
+    <p class="note" id="vide-annonces" hidden>Aucune annonce pour le moment.</p>
+  </section>
+
+  <section data-view="mesobjets" hidden>
     <h1>Mes objets</h1>
-    <p class="intro">La publication d'objets arrive très bientôt. Vous pourrez ajouter des photos, décrire votre objet et indiquer ce que vous recherchez.</p>
-    <p class="note">Merci d'être parmi les premiers membres de TROC MAISON.</p>
+    <button class="btn" data-go="publier">Publier un objet</button>
+    <div id="liste-mes" class="grille"></div>
+    <p class="note" id="vide-mes" hidden>Vous n'avez pas encore publié d'objet.</p>
+  </section>
+
+  <section data-view="publier" hidden>
+    <h1>Publier un objet</h1>
+    <form id="form-item" novalidate>
+      <label for="n-photos">Photos (1 à 4)</label>
+      <input id="n-photos" name="photos" type="file" accept="image/*" multiple>
+      <label for="n-titre">Titre</label>
+      <input id="n-titre" name="titre" type="text" maxlength="80" required>
+      <label for="n-cat">Catégorie</label>
+      <select id="n-cat" name="categorie"></select>
+      <label for="n-etat">État</label>
+      <select id="n-etat" name="etat"></select>
+      <label for="n-valeur">Valeur estimée (FCFA)</label>
+      <input id="n-valeur" name="valeur" type="number" inputmode="numeric" min="0" step="500">
+      <label for="n-desc">Description</label>
+      <textarea id="n-desc" name="description" rows="4" maxlength="1000"></textarea>
+      <label for="n-rech">Ce que vous recherchez en échange <span class="opt">(facultatif)</span></label>
+      <input id="n-rech" name="recherche" type="text" maxlength="200">
+      <p class="note">Votre téléphone et votre e-mail ne sont jamais affichés.</p>
+      <p class="msg" role="alert"></p>
+      <button class="btn" type="submit">Publier</button>
+    </form>
+    <button class="lien" data-go="mesobjets">Annuler</button>
+  </section>
+
+  <section data-view="detail" hidden>
+    <div id="detail-contenu"></div>
+    <button class="lien" data-go="parcourir">Retour aux annonces</button>
   </section>
 </main>
 
@@ -135,7 +174,8 @@
 </datalist>
 
 <nav id="nav" class="nav" hidden aria-label="Navigation principale">
-  <button data-go="bientot">Mes objets</button>
+  <button data-go="parcourir">Annonces</button>
+  <button data-go="mesobjets">Mes objets</button>
   <button data-go="profil">Mon profil</button>
 </nav>
 

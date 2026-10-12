@@ -35,6 +35,38 @@ service cloud.firestore {
       allow delete: if estAdmin();
     }
 
+    function itemValide(d) {
+      return d.keys().hasOnly(['ownerId','ownerPrenom','titre','description','categorie','etat',
+          'valeurEstimee','recherche','photos','quartier','ville','statut','createdAt','updatedAt'])
+        && d.ownerId == request.auth.uid
+        && d.ownerPrenom is string && d.ownerPrenom.size() <= 40
+        && d.titre is string && d.titre.size() >= 3 && d.titre.size() <= 80
+        && d.description is string && d.description.size() <= 1000
+        && d.categorie is string && d.categorie.size() <= 40
+        && d.etat is string && d.etat.size() <= 30
+        && d.valeurEstimee is number && d.valeurEstimee >= 0 && d.valeurEstimee <= 100000000
+        && d.recherche is string && d.recherche.size() <= 200
+        && d.photos is list && d.photos.size() >= 1 && d.photos.size() <= 4
+        && d.quartier is string && d.quartier.size() <= 60
+        && d.ville is string && d.ville.size() <= 40
+        && d.statut in ['actif','pause','echange']
+        && d.updatedAt == request.time;
+    }
+
+    // Objets : lecture par les membres connectés (annonces actives ou les siennes)
+    match /items/{id} {
+      allow read: if request.auth != null
+        && (resource.data.statut == 'actif' || resource.data.ownerId == request.auth.uid)
+        || estAdmin();
+      allow create: if request.auth != null && itemValide(request.resource.data)
+        && request.resource.data.createdAt == request.time;
+      allow update: if (request.auth != null && resource.data.ownerId == request.auth.uid
+        && itemValide(request.resource.data)
+        && request.resource.data.createdAt == resource.data.createdAt)
+        || estAdmin();
+      allow delete: if (request.auth != null && resource.data.ownerId == request.auth.uid) || estAdmin();
+    }
+
     // Reste de la base : admin uniquement (sauf la collection admins)
     match /{col}/{doc=**} {
       allow read, write: if estAdmin() && col != 'admins';
