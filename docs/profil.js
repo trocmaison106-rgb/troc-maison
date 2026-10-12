@@ -74,7 +74,7 @@ async function open(){
     ].forEach(a=>f.append(btn(a[0],a[1])));
     return f;
   }
-  const T={Annonces:annonces,Galerie:galerie,Infos:infos,Options:options};
+  const T={Annonces:annonces,Galerie:galerie,Infos:()=>{const f=infos();f.append(contactBox(u,d,items));return f;},Options:options};
   const tabs=el('div','tp-tabs'),body=el('div','tp-body');
   Object.keys(T).forEach(k=>{
     const b=el('button','',k);
@@ -85,6 +85,36 @@ async function open(){
   tabs.firstChild.click();
 }
 window.TrocProfil={open};
+function norm(s){s=String(s||'').trim();const inter=s[0]==='+'||/^00/.test(s.replace(/\s/g,''));let n=s.replace(/\D/g,'');if(n.startsWith('00'))n=n.slice(2);if(n&&!inter)n=n.startsWith('241')?n:'241'+n.replace(/^0/,'');return n;}
+function contactBox(u,d,items){
+  const box=el('div','tc-form');
+  box.append(el('h3','','📍 Contact et localisation'));
+  const wa=el('input');wa.type='tel';wa.placeholder='Numéro WhatsApp (ex : 07 12 34 56)';wa.value=d.whatsapp||'';
+  let geo=d.geo||null;
+  const st=el('p','tp-note',geo?'Position enregistrée ✓':'Aucune position enregistrée');
+  const gb=el('button','tp-b','📍 Utiliser ma position actuelle');
+  gb.onclick=()=>{
+    if(!navigator.geolocation){st.textContent='Position indisponible sur cet appareil.';return;}
+    st.textContent='Recherche de la position…';
+    navigator.geolocation.getCurrentPosition(p=>{geo={lat:+p.coords.latitude.toFixed(5),lng:+p.coords.longitude.toFixed(5)};st.textContent='Position enregistrée ✓ ('+geo.lat+', '+geo.lng+')';},()=>{st.textContent='Position refusée. Autorisez la localisation pour ce site.';},{enableHighAccuracy:true,timeout:15000});
+  };
+  const cl=el('button','tp-b tp-b2','Effacer la position');
+  cl.onclick=()=>{geo=null;st.textContent='Aucune position enregistrée';};
+  const lab=el('label','tp-chk'),ck=el('input');ck.type='checkbox';ck.checked=!!d.partage;
+  lab.append(ck,document.createTextNode(' Afficher WhatsApp et position sur mes annonces'));
+  const sv=el('button','tp-b','💾 Enregistrer');
+  sv.onclick=async()=>{
+    const num=norm(wa.value),data={whatsapp:num,geo:geo,partage:ck.checked};
+    try{
+      await FS.setDoc(FS.doc(M.db,'users',u.uid),data,{merge:true});
+      const pub=ck.checked?{whatsapp:num,geo:geo}:{whatsapp:'',geo:null};
+      for(const it of items)await FS.updateDoc(FS.doc(M.db,'items',it.id),pub);
+      Object.assign(d,data);st.textContent='Enregistré ✓';
+    }catch(e){alert('Erreur : '+e.message);}
+  };
+  box.append(wa,gb,cl,st,lab,el('p','tp-note','Conseil : choisissez un lieu public pour vos rencontres plutôt que votre domicile.'),sv);
+  return box;
+}
 function pickPhoto(file,av,u){
   if(!file)return;
   const r=new FileReader();

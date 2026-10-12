@@ -65,3 +65,12 @@ header:not(.ts-header),nav:not(.ts-bottom){display:none!important}
 #ts-sheet .ts-sx{position:absolute!important;top:10px;right:12px;width:38px!important;height:38px;margin:0!important;padding:0!important;border:0!important;border-radius:50%!important;background:rgba(0,0,0,.08)!important;color:#0d7045!important;font-size:20px;line-height:1}
 .tp-cam{display:block;margin:0 auto 6px;padding:6px 14px;width:auto;border:1px solid rgba(255,255,255,.6);border-radius:999px;background:rgba(255,255,255,.15);color:#fff;font-size:.8rem}
 .ts-avatar{width:32px;height:32px;border-radius:50%;object-fit:cover}
+.tc-box{display:flex;flex-direction:column;gap:8px;margin:14px 0}
+.tc-btn{display:block;padding:12px;border-radius:12px;text-align:center;font-weight:600;text-decoration:none;color:#fff;background:#0d7045}
+.tc-btn.tc-wa{background:#25d366;color:#073b1c}
+.tc-btn.tc-dir{background:#fff;color:#0d7045;border:1px solid #0d7045}
+.tc-form{margin-top:16px}
+.tc-form h3{color:#0d7045;margin:8px 0}
+.tc-form input[type=tel]{width:100%;padding:12px;border:1px solid #bbb;border-radius:10px;font-size:1rem;box-sizing:border-box}
+.tp-b2{background:#8a8a8a}
+.tp-chk{display:block;margin:10px 0;font-size:.9rem}
