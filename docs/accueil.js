@@ -66,7 +66,7 @@ async function load(){
 }
 const sec=q('[data-view="accueil"]');
 if(sec){
-  sec.append(box);
+  sec.prepend(box);
   new MutationObserver(()=>{if(!sec.hidden&&Date.now()-last>60000)load();}).observe(sec,{attributes:true,attributeFilter:['hidden']});
 }
 (async()=>{
