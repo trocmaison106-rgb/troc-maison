@@ -27,7 +27,7 @@ async function load(){
   var s=await FS.getDocs(FS.query(FS.collection(M.db,'items'),FS.where('statut','==','actif'),FS.limit(300)));
   ALL=s.docs.map(function(x){var o=Object.assign({id:x.id},x.data());
     o._t=norm(o.titre);
-    o._h=norm([o.titre,o.description||o.desc,o.categorie,o.quartier,o.ville,o.etat,o.numero,o.id].join(' '));
+    o._h=norm([o.titre,o.description||o.desc,o.categorie,o.quartier,o.ville,o.etat,o.numero,o.id,(window.TMNO?TMNO(o):'')].join(' '));
     return o;});
   ALL.sort(function(a,b){return ((b.createdAt&&b.createdAt.seconds)||0)-((a.createdAt&&a.createdAt.seconds)||0);});
   loaded=Date.now();
@@ -44,7 +44,7 @@ function card(it){
   var ph=el('div','rs-ph'),p=(it.photos||[])[0];
   if(p){var im=el('img');im.src=p;im.alt='';im.loading='lazy';im.onerror=function(){im.remove();ph.textContent='📦';};ph.append(im);}else ph.textContent='📦';
   var i=el('div','rs-i');
-  i.append(el('div','rs-ti',it.titre||'Objet'));
+  i.append(el('div','rs-ti',(window.TMNO?TMNO(it)+' · ':'')+(it.titre||'Objet')));
   i.append(el('div','rs-s','📍 '+[it.quartier,it.ville].filter(Boolean).join(' · ')));
   var pr=[it.categorie,fcfa(it.valeurEstimee)].filter(Boolean).join(' · ');if(pr)i.append(el('div','rs-p',pr));
   c.append(ph,i);

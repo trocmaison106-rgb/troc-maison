@@ -31,7 +31,7 @@ function card(it){
   if(ps.length){ps.forEach(p=>{const i=el('img');i.src=p;i.alt='';i.loading='lazy';ph.append(i);});if(ps.length===1)ph.classList.add('n1');}
   else{ph.textContent='📦';ph.classList.add('n1');}
   const inf=el('div','ac-info');
-  inf.append(el('div','ac-ti',it.titre||'Objet'));
+  if(window.TMNO)inf.append(el('div','ac-no',TMNO(it)));inf.append(el('div','ac-ti',it.titre||'Objet'));
   inf.append(el('div','ac-lo','📍 '+[it.quartier,it.ville].filter(Boolean).join(' · ')));
   const pr=[it.categorie,fcfa(it.valeurEstimee)].filter(Boolean).join(' · ');if(pr)inf.append(el('div','ac-pr',pr));
   const ds=it.description||it.desc;if(ds)inf.append(el('div','ac-de',ds));
