@@ -2,7 +2,7 @@
 const q=s=>document.querySelector(s);
 const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e;};
 const PAGE=12,FSU='https://www.gstatic.com/firebasejs/10.14.1/firebase-';
-let M,FS,ALL=[],shown=PAGE,fq='',fc='',last=0,mode='moyen';
+let M,FS,ALL=[],shown=PAGE,fq='',fc='',last=0,mode='moyen',ERR=false;
 try{mode=localStorage.getItem('tm-mode')||'moyen';}catch(e){}
 const fcfa=n=>n?Number(n).toLocaleString('fr-FR')+' FCFA':'';
 const rec=(a,b)=>((b.createdAt&&b.createdAt.seconds)||0)-((a.createdAt&&a.createdAt.seconds)||0);
@@ -27,12 +27,13 @@ function open(id){
   let n=0;const t=setInterval(()=>{const b2=f();if(b2){clearInterval(t);b2.click();}else if(++n>25)clearInterval(t);},150);
 }
 function card(it){
-  const c=el('div','ac-card'),m=el('div','ac-main'),ph=el('div','ac-ph'),p=(it.photos||[])[0];
-  if(p){const i=el('img');i.src=p;i.alt='';i.loading='lazy';ph.append(i);}else ph.textContent='📦';
+  const c=el('div','ac-card'),m=el('div','ac-main'),ph=el('div','ac-ph'),ps=(it.photos||[]).slice(0,2);
+  if(ps.length){ps.forEach(p=>{const i=el('img');i.src=p;i.alt='';i.loading='lazy';ph.append(i);});if(ps.length===1)ph.classList.add('n1');}
+  else{ph.textContent='📦';ph.classList.add('n1');}
   const inf=el('div','ac-info');
   inf.append(el('div','ac-ti',it.titre||'Objet'));
-  const pr=fcfa(it.valeurEstimee);if(pr)inf.append(el('div','ac-pr',pr));
   inf.append(el('div','ac-lo','📍 '+[it.quartier,it.ville].filter(Boolean).join(' · ')));
+  const pr=[it.categorie,fcfa(it.valeurEstimee)].filter(Boolean).join(' · ');if(pr)inf.append(el('div','ac-pr',pr));
   const ds=it.description||it.desc;if(ds)inf.append(el('div','ac-de',ds));
   m.append(ph,inf);m.onclick=()=>open(it.id);c.append(m);
   const act=el('div','ac-act');
@@ -47,11 +48,12 @@ function render(){
   list.className='ac-list m-'+mode;
   list.replaceChildren(...f.slice(0,shown).map(card));
   modes.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.m===mode));
-  cnt.textContent=f.length?(Math.min(shown,f.length)+' sur '+f.length+' annonce'+(f.length>1?'s':'')):(ALL.length?'Aucun résultat.':'Aucune annonce pour le moment.');
+  cnt.textContent=ERR?'Impossible de charger les annonces pour le moment.':f.length?(Math.min(shown,f.length)+' sur '+f.length+' annonce'+(f.length>1?'s':'')):(ALL.length?'Aucun résultat.':'Aucune annonce pour le moment.');
   more.style.display=f.length>shown?'block':'none';
   more.textContent='Voir plus ('+(f.length-shown)+')';
 }
 async function load(){
+  ERR=false;
   try{
     M=M||await import('./js/firebase-config.js');
     FS=FS||await import(FSU+'firestore.js');
@@ -60,8 +62,8 @@ async function load(){
     last=Date.now();
     const keep=fc,cats=[...new Set(ALL.map(i=>i.categorie).filter(Boolean))].sort();
     sel.replaceChildren(new Option('Toutes les catégories',''),...cats.map(c=>new Option(c,c)));
-    sel.value=keep;
-  }catch(e){ALL=[];}
+    sel.value=keep;sel.style.display=cats.length?'':'none';
+  }catch(e){ALL=[];ERR=true;sel.style.display='none';}
   render();
 }
 const sec=q('[data-view="accueil"]');
