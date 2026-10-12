@@ -25,7 +25,7 @@ const o=d.createElement('div');o.className='ts-splash-o';
 const letters=(w,g,off)=>[...w].map((c,i)=>'<span class="'+(g?'g':'')+'" style="--i:'+(i+off)+'">'+c+'</span>').join('');
 o.innerHTML='<div class="ts-s-logo"><div class="ts-s-ring"></div><img src="icons/icon-192.png" alt=""></div>'
  +'<div class="ts-s-name">'+letters('TROC',0,0)+'<span class="sp"></span>'+letters('MAISON',1,5)+'</div>'
- +'<div class="ts-s-tag">DONNEZ · TROQUEZ · RÉEMPLOYEZ</div><div class="ts-s-bar"><i></i></div>';
+ +'<div class="ts-s-tag">TROQUEZ · ÉCHANGEZ · REMPLACEZ</div><div class="ts-s-bar"><i></i></div>';
 for(let i=0;i<16;i++){const p=d.createElement('i');p.className='ts-p';
   p.style.cssText='left:'+Math.random()*100+'%;animation-duration:'+(3+Math.random()*3)+'s;animation-delay:'+Math.random()*2.5+'s;width:'+(3+Math.random()*5)+'px;height:'+(3+Math.random()*5)+'px';o.appendChild(p);}
 d.body.appendChild(o);

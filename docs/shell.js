@@ -42,7 +42,7 @@ document.body.insertAdjacentHTML('afterbegin',`
 </header>
 <div class="ts-veil" id="ts-veil"></div>
 <aside class="ts-drawer">
- <div class="ts-dhead">TROC MAISON<small>Donnez, troquez, réemployez</small></div>
+ <div class="ts-dhead">TROC MAISON<small>Troquez, échangez, remplacez</small></div>
  <a data-t="home">🏠 Accueil</a><a data-t="ads">📋 Annonces</a><a data-t="pub">➕ Publier un objet</a>
  <hr><a data-t="mine">📦 Mes objets</a><a data-t="fav">❤️ Favoris</a><a data-t="msg">💬 Messages</a><a data-t="notif">🔔 Notifications</a><a data-t="prof">👤 Mon profil</a>
  <hr><a data-t="how">❓ Comment ça marche</a><a data-t="rules">🛡️ Conseils de sécurité</a><a data-t="about">ℹ️ À propos</a>
