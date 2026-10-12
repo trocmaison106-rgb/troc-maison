@@ -39,3 +39,25 @@ header:not(.ts-header),nav:not(.ts-bottom){display:none!important}
 #ts-sheet .s-about{text-align:center}
 #ts-sheet .s-about p{text-align:center;margin:10px 0;line-height:1.5}
 #ts-sheet .s-about p:first-of-type{border:1px solid rgba(128,128,128,.45);border-radius:12px;padding:14px 16px;margin:14px auto;max-width:92%;text-align:justify}
+.tp{display:none;position:fixed;left:0;right:0;z-index:40;overflow-y:auto;background:#f7f5ef;color:#1d1d1d}
+.tp.on{display:block}
+.tp-head{position:relative;text-align:center;padding:18px 14px 12px;background:#0d7045;color:#fff}
+.tp-x{position:absolute;top:8px;right:10px;background:none;border:0;color:#fff;font-size:22px;width:auto}
+.tp-av{width:88px;height:88px;border-radius:50%;margin:0 auto 8px;background:#d9b43a;color:#0b3d2a;display:grid;place-items:center;font-size:2.2rem;font-weight:700;overflow:hidden;border:3px solid #fff}
+.tp-av img{width:100%;height:100%;object-fit:cover}
+.tp-head h2{margin:4px 0;font-size:1.3rem;color:#fff}
+.tp-head p{margin:2px 0;font-size:.85rem;opacity:.92}
+.tp-tabs{display:flex;position:sticky;top:0;z-index:1;background:#fff;border-bottom:1px solid #ddd}
+.tp-tabs button{flex:1;padding:12px 2px;border:0;background:none;font-weight:600;color:#666;font-size:.9rem;width:auto}
+.tp-tabs button.on{color:#0d7045;border-bottom:3px solid #d9b43a}
+.tp-body{padding:12px}
+.tp-empty,.tp-note{text-align:center;color:#666;font-size:.9rem;padding:10px}
+.tp-item{display:flex;gap:10px;background:#fff;border-radius:12px;padding:8px;margin-bottom:8px}
+.tp-item img,.tp-ph{width:64px;height:64px;border-radius:8px;object-fit:cover;flex:none;display:grid;place-items:center;background:#e7f4ee;font-size:1.6rem}
+.tp-it{display:flex;flex-direction:column;min-width:0;font-size:.85rem}
+.tp-st{color:#0d7045;font-weight:600}
+.tp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+.tp-grid img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:6px}
+.tp-row{display:flex;justify-content:space-between;gap:10px;background:#fff;border-radius:10px;padding:10px 12px;margin-bottom:6px;font-size:.9rem}
+.tp-row b{text-align:right;overflow-wrap:anywhere}
+.tp-b{display:block;width:100%;margin:8px 0;padding:12px;border:0;border-radius:12px;background:#0d7045;color:#fff;font-weight:600;text-align:left}

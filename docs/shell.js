@@ -20,7 +20,8 @@ const SHEETS={
  soon:['Bientôt disponible','<p>Cette fonction arrive prochainement.</p>']
 };
 function sheet(k){const s=SHEETS[k];q('#ts-sheet div').className='s-'+k;q('#ts-sheet div').innerHTML='<h2>'+s[0]+'</h2>'+s[1]+'<button id="ts-x">Fermer</button>';q('#ts-sheet').classList.add('on');q('#ts-x').onclick=()=>q('#ts-sheet').classList.remove('on');}
-function profil(){
+function profil(){window.TrocProfil?TrocProfil.open():profilOld();}
+function profilOld(){
   SHEETS.profil=['Mon profil','<div id="ts-pf" style="text-align:center"></div>'];
   sheet('profil');
   const p=q('#ts-pf');
