@@ -1,0 +1,9 @@
+/* Accueil : affichage équilibré, sans coupure ni débordement */
+[data-view=accueil]{overflow-x:hidden}
+[data-view=accueil] .etapes{list-style:none!important;margin:16px!important;padding:0!important;display:grid!important;gap:12px!important}
+[data-view=accueil] .etapes li{box-sizing:border-box!important;margin:0!important;min-height:76px!important;padding:16px 16px 16px 64px!important;text-align:left!important;font-size:1rem!important;line-height:1.4!important;border-radius:18px!important}
+.ts-tiles{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-auto-rows:1fr!important;gap:12px!important;margin:14px 16px!important}
+.ts-tile{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:8px!important;box-sizing:border-box!important;min-width:0!important;min-height:116px!important;padding:14px 8px!important;text-align:center!important;font-size:.9rem!important;line-height:1.2!important;overflow:hidden}
+.ts-tile span{display:block!important;width:2.2rem;height:2.2rem;font-size:2rem!important;line-height:1!important;text-align:center}
+.ts-tiles .ts-tile:nth-child(2) span{filter:invert(1) brightness(1.8)}
+body::after{content:"";display:block;height:calc(96px + env(safe-area-inset-bottom,0px))}
