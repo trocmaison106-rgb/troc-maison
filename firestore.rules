@@ -8,11 +8,12 @@ service cloud.firestore {
     }
 
     function profilValide(d) {
-      return d.keys().hasOnly(['prenom','telephone','ville','quartier','createdAt','updatedAt'])
+      return d.keys().hasOnly(['prenom','telephone','ville','quartier','photo','createdAt','updatedAt'])
         && d.prenom is string && d.prenom.size() > 0 && d.prenom.size() <= 40
         && d.telephone is string && d.telephone.size() <= 20
         && d.ville is string && d.ville.size() <= 40
         && d.quartier is string && d.quartier.size() <= 60
+        && (!('photo' in d) || (d.photo is string && d.photo.size() <= 500))
         && d.updatedAt == request.time;
     }
 
