@@ -29,7 +29,7 @@ function show(name) {
   views.forEach((v) => { v.hidden = v.dataset.view !== name; });
   nav.hidden = !VUES_APP.includes(name);
   nav.querySelectorAll("[data-go]").forEach((b) => b.classList.toggle("actif", b.dataset.go === name));
-  window.scrollTo(0, name === "accueil" ? Math.max(0, ((document.querySelector("[data-view=accueil] .etapes") || document.body).getBoundingClientRect().top + window.scrollY) - 60) : 0);
+  window.tmAncre ? window.tmAncre(name) : window.scrollTo(0, 0);
 }
 
 function setMsg(form, text, ok = false) {
