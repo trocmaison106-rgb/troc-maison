@@ -187,3 +187,17 @@ header:not(.ts-header),nav:not(.ts-bottom){display:none!important}
   position:static!important;height:auto!important;max-height:none!important;
   overflow:visible!important;align-self:start!important;
 }
+
+/* Mes objets : mise en page photo + texte, puis statut et boutons en dessous */
+#liste-mes>*{
+  display:flex!important;flex-wrap:wrap!important;align-items:flex-start!important;align-content:flex-start!important;
+  gap:12px!important;height:auto!important;min-height:0!important;max-height:none!important;
+  aspect-ratio:auto!important;overflow:visible!important;clip-path:none!important;
+  padding:14px 14px 16px!important;box-sizing:border-box;
+}
+#liste-mes>* img{width:96px!important;height:96px!important;flex:0 0 96px!important;object-fit:cover;border-radius:12px}
+#liste-mes>* .actions{
+  flex:0 0 100%!important;width:100%!important;height:auto!important;max-height:none!important;
+  overflow:visible!important;margin:4px 0 0!important;padding:0!important;
+}
+#liste-mes>* .actions button{height:auto!important;min-height:48px!important;overflow:visible!important}
