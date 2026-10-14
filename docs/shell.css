@@ -212,3 +212,22 @@ header:not(.ts-header),nav:not(.ts-bottom){display:none!important}
   display:block!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important;-webkit-line-clamp:unset!important}
 .rw-st .rw-it .ac-lo,.rw-st .rw-it .ac-pr{font-size:.84rem!important;line-height:1.25!important;margin:0 0 2px!important}
 .rw-st .rw-it .ac-de{font-size:.8rem!important;line-height:1.3!important;margin-top:4px!important}
+
+/* ===== Roue : rendu pro, dynamique, photo non rognée ===== */
+.rw-st .rw-it{box-shadow:0 8px 24px rgba(11,107,69,.18);border:1px solid #eadfb8}
+.rw-st .rw-it .ac-ph{flex:0 0 40%!important;max-height:none!important;min-height:0!important;
+  background:linear-gradient(135deg,#eef5ef,#e3ece4)!important;display:flex!important;align-items:center;justify-content:center;padding:6px;box-sizing:border-box}
+.rw-st .rw-it .ac-ph img{width:100%!important;height:100%!important;flex:1 1 100%!important;
+  object-fit:contain!important;border-radius:12px}
+.rw-st .rw-it .ac-ph img:nth-child(n+2){display:none!important}
+.rw-st .rw-it .ac-info{display:flex!important;flex-direction:column;flex:1 1 auto;min-height:0;
+  padding:10px 14px 12px!important;overflow:hidden!important;gap:2px}
+.rw-st .rw-it .ac-n{font-size:clamp(.62rem,1.5vh,.72rem)!important;letter-spacing:.08em;color:#9a7b12;font-weight:700;margin:0!important}
+.rw-st .rw-it .ac-ti{font-size:clamp(.98rem,2.5vh,1.2rem)!important;line-height:1.2!important;font-weight:800;color:#15251c;
+  margin:0 0 2px!important;white-space:normal!important;overflow:visible!important;-webkit-line-clamp:unset!important;text-align:left!important}
+.rw-st .rw-it .ac-lo{font-size:clamp(.78rem,1.9vh,.9rem)!important;color:#5b6b61;margin:0!important}
+.rw-st .rw-it .ac-pr{font-size:clamp(.88rem,2.1vh,1rem)!important;font-weight:800;color:#0b6b45;margin:0 0 4px!important}
+.rw-st .rw-it .ac-de{font-size:clamp(.74rem,1.8vh,.88rem)!important;line-height:1.35!important;color:#33423a;
+  border-top:1px solid #eadfb8;padding-top:6px;margin-top:2px!important;
+  display:-webkit-box!important;-webkit-box-orient:vertical;-webkit-line-clamp:4;overflow:hidden!important;
+  text-align:justify!important;hyphens:auto}
