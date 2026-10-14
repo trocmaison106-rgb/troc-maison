@@ -1,6 +1,9 @@
 (function(){
 // Texte affiche a cote de la main (modifiable ici)
 var TEXTE='Annonces en haut';
+// Carte sur laquelle la roue s'arrete au clic : 'recente' (1re de la roue = annonce la plus recente)
+// ou 'derniere' (derniere carte de la liste)
+var CARTE='recente';
 var d=document;
 if(d.getElementById('tm-indice'))return;
 var reduce=false;try{reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;}catch(e){}
@@ -33,9 +36,34 @@ function show(){
   requestAnimationFrame(function(){requestAnimationFrame(function(){btn.classList.add('vu');});});
   hideT=setTimeout(hide,10000);
 }
+// Zone visible de la page, entre l'en-tete fixe et la barre du bas
+function bande(){
+  var vh=innerHeight,hh=0,nh=0;
+  function fix(e){while(e&&e!==d.body&&e!==d.documentElement){var p=getComputedStyle(e).position;if(p==='fixed'||p==='sticky')return e;e=e.parentElement;}return null;}
+  var fa=fix(d.elementFromPoint(innerWidth/2,4)),fb=fix(d.elementFromPoint(innerWidth/2,vh-4));
+  if(fa){var r=fa.getBoundingClientRect();if(r.bottom<vh*0.3)hh=r.bottom;}
+  if(fb){var q=fb.getBoundingClientRect();if(q.top>vh*0.7)nh=vh-q.top;}
+  return [hh||57,nh||56];
+}
+function centrer(){
+  var b=box();if(!b)return;
+  var st=b.querySelector('.rw-st')||b;
+  var bd=bande(),vh=innerHeight;
+  function delta(){var r=st.getBoundingClientRect();return (r.top+r.height/2)-(bd[0]+(vh-bd[0]-bd[1])/2);}
+  var dy=delta();
+  var avant=st.getBoundingClientRect().top;
+  try{scrollBy({top:dy,left:0,behavior:reduce?'auto':'smooth'});}catch(e){scrollBy(0,dy);}
+  // Secours si la page defile dans un autre conteneur que la fenetre
+  setTimeout(function(){
+    if(Math.abs(delta())>8){
+      st.style.scrollMarginTop=bd[0]+'px';st.style.scrollMarginBottom=bd[1]+'px';
+      try{st.scrollIntoView({behavior:'smooth',block:'center'});}catch(e){st.scrollIntoView();}
+    }
+  },900);
+}
 btn.addEventListener('click',function(){
-  var b=box();
-  if(b){b.style.scrollMarginTop='72px';try{b.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});}catch(e){b.scrollIntoView();}}
+  if(window.TrocRoue&&window.TrocRoue.goTo){window.TrocRoue.goTo(CARTE==='derniere'?-1:0);}
+  centrer();
   hide();
 });
 poll=setInterval(function(){
