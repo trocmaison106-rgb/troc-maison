@@ -17,7 +17,6 @@ async function inject(){
     const it=s.data(),box=el('div','tc-box');
     const lnk=(cls,txt,href)=>{const a=el('a','tc-btn '+cls,txt);a.href=href;a.target='_blank';a.rel='noopener';box.append(a);};
     if(it.whatsapp)lnk('tc-wa','💬 Écrire sur WhatsApp','https://wa.me/'+it.whatsapp+'?text='+encodeURIComponent('Bonjour, votre annonce « '+(it.titre||'')+' » sur TROC MAISON m\'intéresse.'));
-    if(it.email)lnk('tc-mail','✉️ E-mail','mailto:'+it.email+'?subject='+encodeURIComponent('TROC MAISON : '+(it.titre||'')));
     if(it.geo&&it.geo.lat!=null){
       const c=it.geo.lat+','+it.geo.lng;
       lnk('tc-map','📍 Voir le lieu','https://www.google.com/maps/search/?api=1&query='+c);

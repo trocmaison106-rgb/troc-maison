@@ -158,7 +158,7 @@ export function initItems(show) {
         description: f.description.value.trim(), categorie: f.categorie.value, etat: f.etat.value,
         valeurEstimee: Math.max(0, Math.round(Number(f.valeur.value) || 0)),
         recherche: f.recherche.value.trim(), photos: urls,
-        quartier: p.data().quartier, ville: p.data().ville, whatsapp: (p.data().partage?p.data().whatsapp:"")||"", geo: (p.data().partage?p.data().geo:null)||null, email: (p.data().partage?(u.email||""):"")||"", statut: "actif",
+        quartier: p.data().quartier, ville: p.data().ville, whatsapp: (p.data().partage?p.data().whatsapp:"")||"", geo: (p.data().partage?p.data().geo:null)||null, statut: "actif",
         createdAt: serverTimestamp(), updatedAt: serverTimestamp()
       });
       notifierRelais(itemRef.id); f.reset(); show("mesobjets"); chargerMesObjets();
