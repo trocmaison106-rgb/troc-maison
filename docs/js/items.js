@@ -103,6 +103,7 @@ export async function chargerMesObjets() {
     h("em", {}, lib[it.statut] || it.statut),
     it.statut !== "echange" ? h("button", { type: "button", onclick: () => maj(it.id, it.statut === "actif" ? "pause" : "actif") }, it.statut === "actif" ? "Mettre en pause" : "Remettre en ligne") : null,
     it.statut !== "echange" ? h("button", { type: "button", onclick: () => maj(it.id, "echange") }, "Marquer échangé") : null,
+    h("button", { type: "button", onclick: () => modifier(it) }, "Modifier"),
     h("button", { type: "button", class: "danger", onclick: async () => {
       if (confirm("Supprimer cet objet ?")) { await deleteDoc(doc(db, "items", it.id)); chargerMesObjets(); }
     } }, "Supprimer")
@@ -166,4 +167,71 @@ export function initItems(show) {
       console.error(err); msg(err.code === "permission-denied" ? "Refusé : publiez d'abord les nouvelles règles Firestore." : "Échec de l'envoi (" + (err.code || err.message) + "). Réessayez.");
     } finally { b.disabled = false; b.textContent = "Publier"; }
   });
+}
+
+/* ===== Modifier une annonce ===== */
+function modifier(it) {
+  const mk = (t, c, x) => { const e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; };
+  const liste = (it.photos || []).slice(0, 4).map((src) => ({ src, file: null }));
+  const ov = mk("div", "ed-ov"), box = mk("div", "ed-box");
+  const champ = (lab, el) => { const w = mk("label", "ed-l", lab); w.append(el); return w; };
+  const titre = mk("input"); titre.type = "text"; titre.maxLength = 80; titre.value = it.titre || "";
+  const desc = mk("textarea"); desc.rows = 4; desc.value = it.description || "";
+  const cat = mk("select"); CATS.forEach((v) => cat.append(new Option(v, v))); cat.value = it.categorie || CATS[0];
+  const etat = mk("select"); ETATS.forEach((v) => etat.append(new Option(v, v))); etat.value = it.etat || ETATS[0];
+  const val = mk("input"); val.type = "number"; val.min = "0"; val.value = it.valeurEstimee || 0;
+  const rech = mk("input"); rech.type = "text"; rech.value = it.recherche || "";
+  const grille = mk("div", "ed-ph"), msg = mk("p", "ed-msg");
+  const ajout = mk("input"); ajout.type = "file"; ajout.accept = "image/*"; ajout.multiple = true;
+  function dessiner() {
+    grille.replaceChildren(...liste.map((p, i) => {
+      const c = mk("div", "ed-p"), im = mk("img"); im.src = p.src; im.alt = "";
+      c.append(im);
+      if (i === 0) c.append(mk("span", "", "★ Photo principale"));
+      else {
+        const b = mk("button", "ed-sm", "★ Mettre en principale"); b.type = "button";
+        b.onclick = () => { liste.unshift(liste.splice(i, 1)[0]); dessiner(); };
+        c.append(b);
+      }
+      const r = mk("button", "ed-sm ed-rm", "Retirer"); r.type = "button";
+      r.onclick = () => { liste.splice(i, 1); dessiner(); };
+      c.append(r);
+      return c;
+    }));
+  }
+  ajout.addEventListener("change", () => {
+    for (const f of [...ajout.files]) {
+      if (liste.length >= 4) { msg.textContent = "4 photos maximum."; break; }
+      liste.push({ src: URL.createObjectURL(f), file: f });
+    }
+    ajout.value = ""; dessiner();
+  });
+  const ok = mk("button", "ed-ok", "Enregistrer"); ok.type = "button";
+  const non = mk("button", "", "Annuler"); non.type = "button";
+  non.onclick = () => ov.remove();
+  ok.onclick = async () => {
+    msg.textContent = "";
+    if (titre.value.trim().length < 3) { msg.textContent = "Indiquez un titre (3 caractères minimum)."; return; }
+    if (!liste.length) { msg.textContent = "Gardez au moins une photo."; return; }
+    ok.disabled = true; ok.textContent = "Enregistrement…";
+    try {
+      const urls = [];
+      for (const p of liste) urls.push(p.file ? await envoyer(await compresser(p.file)) : p.src);
+      await updateDoc(doc(db, "items", it.id), {
+        titre: titre.value.trim(), description: desc.value.trim(), categorie: cat.value, etat: etat.value,
+        valeurEstimee: Math.max(0, Math.round(Number(val.value) || 0)), recherche: rech.value.trim(),
+        photos: urls, updatedAt: serverTimestamp()
+      });
+      ov.remove(); chargerMesObjets();
+    } catch (err) {
+      console.error(err);
+      msg.textContent = err.code === "permission-denied" ? "Refusé par les règles Firestore." : "Échec (" + (err.code || err.message) + "). Réessayez.";
+      ok.disabled = false; ok.textContent = "Enregistrer";
+    }
+  };
+  const act = mk("div", "ed-act"); act.append(non, ok);
+  box.append(mk("h2", "", "Modifier l'annonce"), champ("Titre", titre), champ("Description", desc),
+    champ("Catégorie", cat), champ("État", etat), champ("Valeur estimée (FCFA)", val), champ("Je recherche", rech),
+    mk("p", "ed-l", "Photos (la première est celle affichée)"), grille, champ("Ajouter des photos", ajout), msg, act);
+  ov.append(box); document.body.append(ov); dessiner();
 }

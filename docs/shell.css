@@ -123,3 +123,18 @@ header:not(.ts-header),nav:not(.ts-bottom){display:none!important}
 .sh-btn.sh-wa{background:#25d366;color:#073b1c}
 .sh-btn.sh-alt{background:#fff;color:#0d7045;border:1px solid #0d7045}
 .tc-share{border:1px solid #0d7045;background:#fff;color:#0d7045;font-size:1rem;cursor:pointer}
+.ed-ov{position:fixed;inset:0;z-index:10002;background:rgba(0,0,0,.55);overflow-y:auto}
+.ed-box{background:#faf7f0;max-width:560px;margin:0 auto;min-height:100%;padding:16px 16px 40px;box-sizing:border-box}
+.ed-box h2{color:#0d7045;margin:8px 0 4px}
+.ed-l{display:block;font-weight:600;margin-top:14px}
+.ed-l input,.ed-l textarea,.ed-l select{display:block;width:100%;box-sizing:border-box;margin-top:4px;padding:10px;font-size:1rem;border:1px solid #bbb;border-radius:10px;background:#fff;font-family:inherit}
+.ed-ph{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+.ed-p{background:#fff;border:1px solid #ddd;border-radius:12px;padding:6px;text-align:center}
+.ed-p img{width:100%;height:120px;object-fit:cover;border-radius:8px}
+.ed-p span{display:block;color:#0d7045;font-weight:700;font-size:.85rem;margin:6px 0}
+.ed-sm{width:100%;margin-top:4px;padding:8px;border:1px solid #0d7045;background:#fff;color:#0d7045;border-radius:8px;font-size:.9rem}
+.ed-sm.ed-rm{border-color:#b3261e;color:#b3261e}
+.ed-act{display:flex;gap:8px;margin-top:20px}
+.ed-act button{flex:1;padding:12px;border-radius:12px;border:1px solid #0d7045;font-weight:600;font-size:1rem;background:#fff;color:#0d7045}
+.ed-act .ed-ok{background:#0d7045;color:#fff}
+.ed-msg{color:#b3261e;margin:10px 0 0}
