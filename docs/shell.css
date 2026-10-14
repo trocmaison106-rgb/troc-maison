@@ -138,3 +138,10 @@ header:not(.ts-header),nav:not(.ts-bottom){display:none!important}
 .ed-act button{flex:1;padding:12px;border-radius:12px;border:1px solid #0d7045;font-weight:600;font-size:1rem;background:#fff;color:#0d7045}
 .ed-act .ed-ok{background:#0d7045;color:#fff}
 .ed-msg{color:#b3261e;margin:10px 0 0}
+/* Description : bloc justifié, lignes équilibrées */
+[data-view="detail"] p:not(.note),.sh-d{text-align:justify;text-justify:inter-word;hyphens:auto;-webkit-hyphens:auto;overflow-wrap:break-word;text-wrap:pretty;line-height:1.55}
+[data-view="detail"] h1,[data-view="detail"] h2,.sh-t{text-wrap:balance}
+/* Gérer mes objets : boutons uniformes en grille */
+#liste-mes .actions{display:grid!important;grid-template-columns:1fr 1fr;gap:10px;width:100%;flex:0 0 100%;box-sizing:border-box;margin:0!important;padding:12px 0 0!important}
+#liste-mes .actions em{grid-column:1/-1;text-align:center;font-style:normal;font-weight:700;color:#0d7045;margin:0}
+#liste-mes .actions button{width:100%!important;min-height:48px;margin:0!important;box-sizing:border-box;padding:10px 8px;font-size:1rem;font-weight:600;line-height:1.2;border-radius:12px;display:flex;align-items:center;justify-content:center;text-align:center}
