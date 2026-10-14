@@ -17,7 +17,8 @@ async function inject(){
     const it=s.data(),box=el('div','tc-box');
     const lnk=(cls,txt,href)=>{const a=el('a','tc-btn '+cls,txt);a.href=href;a.target='_blank';a.rel='noopener';box.append(a);};
     let ct=null;
-    if(it.ownerId){try{const cs=await FS.getDoc(FS.doc(M.db,'contacts',it.ownerId));if(cs.exists())ct=cs.data();}catch(e){}}
+    let nt='';
+    if(it.ownerId){try{const cs=await FS.getDoc(FS.doc(M.db,'contacts',it.ownerId));if(cs.exists())ct=cs.data();}catch(e){nt='Coordonnées indisponibles ('+(e.code||'erreur')+')';}}
     if(ct&&ct.whatsapp)lnk('tc-wa','💬 Écrire sur WhatsApp','https://wa.me/'+ct.whatsapp+'?text='+encodeURIComponent('Bonjour, votre annonce « '+(it.titre||'')+' » sur TROC MAISON m\'intéresse.'));
     if(ct&&ct.telephone)lnk('tc-tel','📞 Appeler','tel:'+ct.telephone.replace(/[^+0-9]/g,''));
     if(ct&&ct.email)lnk('tc-mail','✉️ E-mail','mailto:'+ct.email+'?subject='+encodeURIComponent('TROC MAISON : '+(it.titre||'')));
@@ -26,7 +27,7 @@ async function inject(){
       lnk('tc-map','📍 Voir le lieu','https://www.google.com/maps/search/?api=1&query='+c);
       lnk('tc-dir','🧭 Itinéraire','https://www.google.com/maps/dir/?api=1&destination='+c);
     }
-    if(box.children.length&&anchor.isConnected)anchor.before(box);
+    if(!ct||(!ct.whatsapp&&!ct.telephone&&!ct.email))box.append(el('p','note',nt||'Coordonnées non partagées pour le moment.'));if(box.children.length&&anchor.isConnected)anchor.before(box);
   }catch(e){}finally{busy=false;}
 }
 new MutationObserver(inject).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['hidden']});
