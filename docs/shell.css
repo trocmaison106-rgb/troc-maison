@@ -187,3 +187,19 @@ header:not(.ts-header),nav:not(.ts-bottom){display:none!important}
   position:static!important;height:auto!important;max-height:none!important;
   overflow:visible!important;align-self:start!important;
 }
+
+/* Mes objets (final) : hauteur libre, texte groupé, boutons visibles */
+#liste-mes>div.carte{
+  aspect-ratio:auto!important;height:auto!important;min-height:0!important;max-height:none!important;
+  overflow:visible!important;display:flex!important;flex-direction:column!important;
+  justify-content:flex-start!important;padding-bottom:14px!important;
+}
+#liste-mes>div.carte>.carte-btn{
+  flex:0 0 auto!important;height:auto!important;min-height:0!important;
+  align-content:start!important;align-items:start!important;row-gap:4px!important;
+  grid-template-rows:none!important;grid-auto-rows:min-content!important;
+}
+#liste-mes>div.carte>.actions{
+  flex:0 0 auto!important;margin:10px 10px 0!important;width:auto!important;
+  height:auto!important;max-height:none!important;overflow:visible!important;
+}
