@@ -28,6 +28,7 @@ async function inject(){
       lnk('tc-dir','🧭 Itinéraire','https://www.google.com/maps/dir/?api=1&destination='+c);
     }
     if(!ct||(!ct.whatsapp&&!ct.telephone&&!ct.email))box.append(el('p','note',nt||'Coordonnées non partagées pour le moment.'));if(box.children.length&&anchor.isConnected)anchor.before(box);
+    {const shBtn=el('button','tc-btn tc-share','🔗 Partager cette annonce');shBtn.type='button';shBtn.onclick=function(){window.trocPartager&&window.trocPartager(last,it.titre);};box.append(shBtn);}
   }catch(e){}finally{busy=false;}
 }
 new MutationObserver(inject).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['hidden']});
