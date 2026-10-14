@@ -1,7 +1,7 @@
 (function(){
 var d=document;
 function el(t,c,x){var e=d.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e;}
-var ANG=30,TOP=10,VIS=2.4;
+var ANG=8,TOP=10,VIS=2.4,GAP=16;
 // Hauteur de la roue : ~82 % de l'ecran (entre 460 et 740 px)
 function getH(){var h=Math.round((window.innerHeight||700)*0.82);return Math.max(460,Math.min(h,740));}
 var H=getH(),IH=H-2*TOP;
@@ -38,13 +38,13 @@ function place(){
   ui.stage.style.height=H+'px';
   ui.stage.style.setProperty('--rwih',IH+'px');
   var W=ui.stage.clientWidth||360;
-  cw=Math.min(Math.round(W*0.9),460);
+  cw=Math.min(Math.round(W*0.86),460);
   var R=cw*0.95;
   for(var i=0;i<n;i++){
     var c=cells[i],a=mod(i-rot+n/2,n)-n/2,aa=Math.abs(a);
     if(aa>VIS){c.style.display='none';continue;}
     c.style.display='block';c.style.width=cw+'px';
-    var th=a*ANG*Math.PI/180,x=W/2+R*Math.sin(th)-cw/2,z=-R*(1-Math.cos(th))*0.9;
+    var x=W/2-cw/2+a*(cw+GAP),z=-Math.min(aa,2)*40;
     c.style.transform='translate3d('+x.toFixed(1)+'px,0,'+z.toFixed(1)+'px) rotateY('+(a*ANG).toFixed(1)+'deg)';
     c.style.opacity=String(1-0.25*Math.min(aa,2));
     c.style.zIndex=String(100-Math.round(aa*10));
@@ -75,7 +75,7 @@ function fling(){
   if(reduce){snap();return;}
   (function f(){
     if(drag){raf=0;return;}
-    if(Math.abs(vel)<0.004){raf=0;snap();return;}
+    if(Math.abs(vel)<0.02){raf=0;snap();return;}
     rot+=vel;vel*=0.94;place();raf=requestAnimationFrame(f);
   })();
 }
