@@ -148,3 +148,25 @@ header:not(.ts-header),nav:not(.ts-bottom){display:none!important}
 /* Roue Accueil : texte justifié et équilibré */
 .ac-card p,.ac-card [class*="desc"],.ac-card [class*="txt"],.ac-card [class*="text"]{text-align:justify!important;text-justify:inter-word;hyphens:auto;-webkit-hyphens:auto;overflow-wrap:break-word;text-wrap:pretty;line-height:1.5}
 .ac-card h1,.ac-card h2,.ac-card h3,.ac-card h4,.ac-card [class*="titre"],.ac-card [class*="title"]{text-align:left;text-wrap:balance;hyphens:manual}
+
+/* Roue : texte justifié en bloc comme la fiche plein écran */
+[class*="roue"] p,[class*="wheel"] p,[class*="carousel"] p,[class*="slide"] p,[class*="tuile"] p,[class*="tile"] p,
+[class*="roue"] [class*="desc"],[class*="wheel"] [class*="desc"],[class*="slide"] [class*="desc"],[class*="tile"] [class*="desc"],[class*="tuile"] [class*="desc"]{
+  text-align:justify!important;text-justify:inter-word;hyphens:auto;-webkit-hyphens:auto;
+  overflow-wrap:break-word;line-height:1.5;
+}
+[class*="roue"] h1,[class*="roue"] h2,[class*="roue"] h3,[class*="wheel"] h3,[class*="slide"] h3,[class*="tile"] h3,[class*="tuile"] h3{
+  text-align:left;text-wrap:balance;hyphens:manual;
+}
+
+/* Mes objets : cartes qui s'adaptent, boutons jamais coupés */
+[data-view="mesobjets"] [class*="card"],[data-view="mesobjets"] article,[data-view="mesobjets"] li{
+  height:auto!important;min-height:0!important;max-height:none!important;overflow:visible!important;
+}
+[data-view="mesobjets"] [class*="actions"],[data-view="mesobjets"] [class*="btns"],[data-view="mesobjets"] [class*="boutons"]{
+  display:flex!important;flex-wrap:wrap;gap:8px;width:100%;margin-top:10px;position:static!important;
+}
+[data-view="mesobjets"] [class*="card"] button{
+  flex:1 1 140px;min-height:44px;height:auto!important;padding:10px 12px;
+  white-space:normal;line-height:1.2;overflow:visible!important;
+}
