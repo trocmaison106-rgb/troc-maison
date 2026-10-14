@@ -3,7 +3,7 @@ var d=document;
 function el(t,c,x){var e=d.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e;}
 var ANG=8,TOP=10,VIS=2.4,GAP=16;
 // Hauteur de la roue : ~82 % de l'ecran (entre 460 et 740 px)
-function getH(){var h=Math.round((window.innerHeight||700)*0.82);return Math.max(460,Math.min(h,740));}
+function getH(){var h=Math.round((window.innerHeight||700)*0.66);return Math.max(400,Math.min(h,600));}
 var H=getH(),IH=H-2*TOP;
 var reduce=false;try{reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;}catch(e){}
 var useRoue=true;try{useRoue=localStorage.getItem('tm-roue')!=='0';}catch(e){}
