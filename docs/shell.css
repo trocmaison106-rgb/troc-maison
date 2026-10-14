@@ -145,3 +145,6 @@ header:not(.ts-header),nav:not(.ts-bottom){display:none!important}
 #liste-mes .actions{display:grid!important;grid-template-columns:1fr 1fr;gap:10px;width:100%;flex:0 0 100%;box-sizing:border-box;margin:0!important;padding:12px 0 0!important}
 #liste-mes .actions em{grid-column:1/-1;text-align:center;font-style:normal;font-weight:700;color:#0d7045;margin:0}
 #liste-mes .actions button{width:100%!important;min-height:48px;margin:0!important;box-sizing:border-box;padding:10px 8px;font-size:1rem;font-weight:600;line-height:1.2;border-radius:12px;display:flex;align-items:center;justify-content:center;text-align:center}
+/* Roue Accueil : texte justifié et équilibré */
+.ac-card p,.ac-card [class*="desc"],.ac-card [class*="txt"],.ac-card [class*="text"]{text-align:justify!important;text-justify:inter-word;hyphens:auto;-webkit-hyphens:auto;overflow-wrap:break-word;text-wrap:pretty;line-height:1.5}
+.ac-card h1,.ac-card h2,.ac-card h3,.ac-card h4,.ac-card [class*="titre"],.ac-card [class*="title"]{text-align:left;text-wrap:balance;hyphens:manual}
