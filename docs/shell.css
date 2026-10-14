@@ -110,3 +110,16 @@ header:not(.ts-header),nav:not(.ts-bottom){display:none!important}
 .ac-more{display:block;width:100%;margin:12px 0;padding:12px;border:0;border-radius:12px;background:#0d7045;color:#fff;font-weight:600}
 .ac-n{color:#666;font-size:.8rem;text-align:center}
 .x-close{position:fixed;top:68px;right:12px;width:44px;height:44px;border:0;border-radius:50%;background:rgba(0,0,0,.6);color:#fff;font-size:1.3rem;line-height:1;z-index:9999;cursor:pointer}
+.sh-open{overflow:hidden}
+.sh-ov{position:fixed;inset:0;z-index:10000;background:#faf7f0;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.sh-in{max-width:640px;margin:0 auto;padding:68px 16px 40px}
+.sh-x{position:fixed;top:12px;right:12px;width:44px;height:44px;border:0;border-radius:50%;background:rgba(0,0,0,.6);color:#fff;font-size:1.3rem;z-index:10001;cursor:pointer}
+.sh-ph{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:8px}
+.sh-ph img{flex:0 0 100%;width:100%;max-height:60vh;object-fit:contain;background:#fff;scroll-snap-align:center;border-radius:16px}
+.sh-t{color:#0d7045;font-size:1.6rem;margin:16px 0 6px}
+.sh-m{color:#555;margin:0 0 12px}
+.sh-d{font-size:1.1rem;margin:12px 0}
+.sh-btn{display:block;width:100%;box-sizing:border-box;padding:12px;margin-top:8px;border:0;border-radius:12px;text-align:center;font-weight:600;font-size:1rem;text-decoration:none;color:#fff;background:#0d7045;cursor:pointer}
+.sh-btn.sh-wa{background:#25d366;color:#073b1c}
+.sh-btn.sh-alt{background:#fff;color:#0d7045;border:1px solid #0d7045}
+.tc-share{border:1px solid #0d7045;background:#fff;color:#0d7045;font-size:1rem;cursor:pointer}
