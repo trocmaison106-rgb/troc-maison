@@ -2,8 +2,8 @@
 const q=s=>document.querySelector(s);
 const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e;};
 const PAGE=12,FSU='https://www.gstatic.com/firebasejs/10.14.1/firebase-';
-let M,FS,ALL=[],shown=PAGE,fq='',fc='',last=0,mode='moyen',ERR=false;
-try{mode=localStorage.getItem('tm-mode')||'moyen';}catch(e){}
+let M,FS,ALL=[],shown=PAGE,fq='',fc='',last=0,mode='compact',ERR=false;
+try{mode=localStorage.getItem('tm-mode2')||'compact';}catch(e){}
 const fcfa=n=>n?Number(n).toLocaleString('fr-FR')+' FCFA':'';
 const rec=(a,b)=>((b.createdAt&&b.createdAt.seconds)||0)-((a.createdAt&&a.createdAt.seconds)||0);
 const box=el('div','ac');box.id='acc-annonces';
@@ -12,7 +12,7 @@ const list=el('div','ac-list'),cnt=el('p','ac-n'),more=el('button','ac-more');
 inp.type='search';inp.placeholder='Rechercher un objet…';
 [['compact','▤','Compact'],['moyen','▦','Moyen'],['grand','▭','Grand']].forEach(a=>{
   const b=el('button','',a[1]);b.title=a[2];b.setAttribute('aria-label',a[2]);b.dataset.m=a[0];
-  b.onclick=()=>{mode=a[0];try{localStorage.setItem('tm-mode',mode);}catch(e){}render();};
+  b.onclick=()=>{mode=a[0];try{localStorage.setItem('tm-mode2',mode);}catch(e){}render();};
   modes.append(b);
 });
 bar.append(inp,sel,modes);
