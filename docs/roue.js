@@ -9,7 +9,7 @@ var reduce=false;try{reduce=matchMedia('(prefers-reduced-motion: reduce)').match
 var useRoue=true;try{useRoue=localStorage.getItem('tm-roue')!=='0';}catch(e){}
 var ui=null,items=[],cells=[],rot=0,mk=null,key='',vel=0,raf=0,drag=null,moved=0,cw=300;
 function mod(v,n){return ((v%n)+n)%n;}
-var CSS=['.rw{width:100vw;margin:4px 0 10px calc(50% - 50vw)}',
+var CSS=['.rw{position:relative;width:100vw;margin:4px 0 10px calc(50% - 50vw)}',
 '.rw-st{position:relative;overflow:hidden;perspective:1100px;touch-action:pan-y;user-select:none;-webkit-user-select:none;border-radius:0;background:linear-gradient(#f4f1e6,#e6ecdf)}',
 '.rw-it{position:absolute;left:0;top:'+TOP+'px;height:var(--rwih,600px);overflow:hidden;will-change:transform;border-radius:18px;background:#fff;pointer-events:none;backface-visibility:hidden;display:block!important;padding:0!important;margin:0!important;gap:0!important}',
 '.rw-it.on{box-shadow:0 10px 26px rgba(0,0,0,.32);pointer-events:auto}',
@@ -23,6 +23,13 @@ var CSS=['.rw{width:100vw;margin:4px 0 10px calc(50% - 50vw)}',
 '.rw-it .ac-lo,.rw-it .ac-pr{font-size:1.02rem!important;line-height:1.3!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important;overflow-wrap:anywhere;margin:0 0 5px!important}',
 '.rw-it .ac-de{font-size:1rem!important;line-height:1.35!important;display:block!important;overflow:visible!important;white-space:pre-line;overflow-wrap:anywhere}',
 '.rw-it .ac-act{display:none!important}',
+'.rw-ar{position:absolute;top:18%;z-index:5;width:42px;height:42px;margin-top:-21px;padding:0;border-radius:50%;border:2px solid #FCD116;background:rgba(15,61,43,.85);color:#FCD116;display:flex;align-items:center;justify-content:center;cursor:pointer;-webkit-tap-highlight-color:transparent;box-shadow:0 3px 10px rgba(0,0,0,.35);animation:rwpv 1.3s ease-in-out infinite}',
+'.rw-pv{left:6px}',
+'.rw-nx{right:6px;animation-name:rwnx}',
+'.rw.calme .rw-ar{animation:none;opacity:.65}',
+'@keyframes rwpv{0%,100%{transform:translateX(0)}50%{transform:translateX(-5px)}}',
+'@keyframes rwnx{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}',
+'@media (prefers-reduced-motion:reduce){.rw-ar{animation:none}}',
 '.rw-tg{margin-left:6px;padding:6px 10px;border-radius:10px;border:1px solid #0b6b45;background:#fff;color:#0b6b45;font-weight:600;cursor:pointer}'].join('');
 
 function place(){
@@ -81,12 +88,20 @@ function ensure(l){
   var bar=l.parentNode.querySelector('.ac-modes');
   if(bar)bar.parentNode.appendChild(tg);else wrap.prepend(tg);
   ui={wrap:wrap,stage:stage,tg:tg};
+  var SV='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="';
+  var pv=el('button','rw-ar rw-pv'),nx=el('button','rw-ar rw-nx');
+  pv.type='button';nx.type='button';
+  pv.setAttribute('aria-label','Annonce précédente');nx.setAttribute('aria-label','Annonce suivante');
+  pv.innerHTML=SV+'M15 5l-7 7 7 7"/></svg>';nx.innerHTML=SV+'M9 5l7 7-7 7"/></svg>';
+  wrap.append(pv,nx);ui.pv=pv;ui.nx=nx;
+  function go(k){stopAnim();vel=0;wrap.classList.add('calme');animTo(Math.round(rot)+k,280);}
+  pv.onclick=function(){go(-1);};nx.onclick=function(){go(1);};
   tg.onclick=function(){useRoue=!useRoue;try{localStorage.setItem('tm-roue',useRoue?'1':'0');}catch(e){}if(window.TrocAccRender)window.TrocAccRender();};
   stage.addEventListener('pointerdown',function(e){stopAnim();vel=0;moved=0;drag={x:e.clientX,id:e.pointerId,cap:0};});
   stage.addEventListener('pointermove',function(e){
     if(!drag)return;
     var dx=e.clientX-drag.x;drag.x=e.clientX;moved+=Math.abs(dx);
-    if(moved>6&&!drag.cap){try{stage.setPointerCapture(drag.id);}catch(x){}drag.cap=1;}
+    if(moved>6&&!drag.cap){try{stage.setPointerCapture(drag.id);}catch(x){}drag.cap=1;ui.wrap.classList.add('calme');}
     var u=-dx/(cw*0.6);rot+=u;vel=0.6*vel+0.4*u;place();
   });
   function up(e){
@@ -112,6 +127,7 @@ window.TrocRoue={draw:function(f,cardFn,l,cnt,more){
   if(!f.length){ui.wrap.style.display='none';cnt.textContent='Aucune annonce trouvée.';return true;}
   ui.wrap.style.display='';
   cnt.textContent=f.length+' annonce'+(f.length>1?'s':'')+' · faites glisser, la roue tourne sans fin';
+  ui.pv.style.display=ui.nx.style.display=f.length>1?'':'none';
   build();rot=mod(rot,f.length);place();
   return true;
 }};
