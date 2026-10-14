@@ -109,6 +109,14 @@ export async function chargerMesObjets() {
     } }, "Supprimer")
   ))));
   $("#vide-mes").hidden = l.length > 0;
+  document.querySelectorAll("#liste-mes .actions").forEach(function (a) {
+    a.style.cssText = "display:grid!important;grid-template-columns:1fr 1fr;gap:10px;width:100%;grid-column:1/-1;flex:0 0 100%;box-sizing:border-box;margin:12px 0 0!important;padding:0!important;justify-content:stretch;align-items:stretch";
+    var m = a.querySelector("em");
+    if (m) m.style.cssText = "grid-column:1/-1;text-align:center;font-style:normal;font-weight:700;color:#0d7045;margin:0";
+    a.querySelectorAll("button").forEach(function (b) {
+      b.style.cssText = "width:100%!important;min-width:0;height:52px;margin:0!important;box-sizing:border-box;padding:6px 8px;font-size:1rem;font-weight:600;line-height:1.2;border-radius:12px;display:flex;align-items:center;justify-content:center;text-align:center;grid-column:auto";
+    });
+  });
 }
 
 async function ouvrir(id) {

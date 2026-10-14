@@ -7,7 +7,7 @@ import {
   doc, getDoc, setDoc, serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
-import { initItems, chargerAnnonces, chargerMesObjets } from "./items.js?v=2";
+import { initItems, chargerAnnonces, chargerMesObjets } from "./items.js?v=3";
 
 const VUES_APP = ["profil", "parcourir", "mesobjets", "publier", "detail"];
 const $ = (s, r = document) => r.querySelector(s);
