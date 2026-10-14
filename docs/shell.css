@@ -170,3 +170,20 @@ header:not(.ts-header),nav:not(.ts-bottom){display:none!important}
   flex:1 1 140px;min-height:44px;height:auto!important;padding:10px 12px;
   white-space:normal;line-height:1.2;overflow:visible!important;
 }
+
+/* Roue : description justifiée en bloc, titre aligné à gauche */
+.rw-it .ac-info .ac-de,.rw-it .ac-de{
+  text-align:justify!important;text-justify:inter-word;
+  hyphens:auto;-webkit-hyphens:auto;overflow-wrap:break-word!important;word-break:normal!important;
+}
+.rw-it .ac-info .ac-ti{text-align:left!important;hyphens:manual;text-wrap:balance}
+
+/* Mes objets : la carte s'agrandit pour montrer tous les boutons */
+#liste-mes>*{
+  height:auto!important;min-height:0!important;max-height:none!important;
+  overflow:visible!important;align-content:start!important;grid-auto-rows:auto!important;
+}
+#liste-mes>* .actions{
+  position:static!important;height:auto!important;max-height:none!important;
+  overflow:visible!important;align-self:start!important;
+}
