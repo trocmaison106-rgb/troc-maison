@@ -101,13 +101,13 @@ function contactBox(u,d,items){
   const cl=el('button','tp-b tp-b2','Effacer la position');
   cl.onclick=()=>{geo=null;st.textContent='Aucune position enregistrée';};
   const lab=el('label','tp-chk'),ck=el('input');ck.type='checkbox';ck.checked=!!d.partage;
-  lab.append(ck,document.createTextNode(' Afficher WhatsApp et position sur mes annonces'));
+  lab.append(ck,document.createTextNode(' Afficher WhatsApp, e-mail et position sur mes annonces'));
   const sv=el('button','tp-b','💾 Enregistrer');
   sv.onclick=async()=>{
     const num=norm(wa.value),data={whatsapp:num,geo:geo,partage:ck.checked};
     try{
       await FS.setDoc(FS.doc(M.db,'users',u.uid),Object.assign({updatedAt:FS.serverTimestamp()},data),{merge:true});
-      const pub=ck.checked?{whatsapp:num,geo:geo}:{whatsapp:'',geo:null};
+      const pub=ck.checked?{whatsapp:num,geo:geo,email:u.email||""}:{email:"",whatsapp:'',geo:null};
       for(const it of items)await FS.updateDoc(FS.doc(M.db,'items',it.id),Object.assign({updatedAt:FS.serverTimestamp()},pub));
       Object.assign(d,data);st.textContent='Enregistré ✓';
     }catch(e){alert('Erreur : '+e.message);}
