@@ -18,7 +18,8 @@
     return 60;
   }
   function cible() {
-    var e = document.querySelector("[data-view=accueil] .etapes");
+    var a = document.querySelector(".rw-ar");
+    var e = (a && a.offsetParent) ? a.parentNode : document.querySelector("[data-view=accueil] .etapes");
     if (!e || !e.offsetParent) return null;
     return Math.max(0, e.getBoundingClientRect().top + scrollY - haut() - 4);
   }

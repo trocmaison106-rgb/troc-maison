@@ -14,7 +14,7 @@
   function aller(ar){
     var w=ar.parentNode;
     if(w){w.classList.add('tm-roue-tete');
-      try{w.scrollIntoView({behavior:'smooth',block:'start'});}catch(e){w.scrollIntoView();}}
+      }
     tete(0);
   }
   var io=new IntersectionObserver(function(es){
