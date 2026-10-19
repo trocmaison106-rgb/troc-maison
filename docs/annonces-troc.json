@@ -1,0 +1,72 @@
+[
+ {
+  "titre": "Mitsubishi GLS 2016",
+  "description": "Essence, 80 000 km, automatique, bon état, climatisé. Cause de départ.\nPrix : 8 000 000 FCFA\nContact : 074 23 21 96 / 066 60 07 27",
+  "categorie": "Autre",
+  "etat": "Bon état",
+  "valeurEstimee": 8000000,
+  "recherche": "Vente en FCFA",
+  "contact": "074 23 21 96",
+  "avatar": "voiture"
+ },
+ {
+  "titre": "Jetour X70 Plus 2022",
+  "description": "28 000 km, toit panoramique, sièges en cuir, toutes options. Pas encore immatriculée au Gabon. À débattre légèrement.\nPrix : 12 500 000 FCFA\nContact : 062 61 61 55 / 077 70 91 47",
+  "categorie": "Autre",
+  "etat": "Bon état",
+  "valeurEstimee": 12500000,
+  "recherche": "Vente en FCFA",
+  "contact": "062 61 61 55",
+  "avatar": "voiture"
+ },
+ {
+  "titre": "Toyota Carina 3 diesel",
+  "description": "Boîte manuelle, moteur impeccable, papiers à jour. Tôlerie, peinture et mécanique refaites. À débattre légèrement.\nPrix : 2 350 000 FCFA\nContact : 066 38 89 26",
+  "categorie": "Autre",
+  "etat": "Bon état",
+  "valeurEstimee": 2350000,
+  "recherche": "Vente en FCFA",
+  "contact": "066 38 89 26",
+  "avatar": "voiture"
+ },
+ {
+  "titre": "Mercedes ML320",
+  "description": "Essence, boîte automatique, en bon état. À débattre.\nPrix : 3 500 000 FCFA\nContact : 074 54 39 26",
+  "categorie": "Autre",
+  "etat": "Bon état",
+  "valeurEstimee": 3500000,
+  "recherche": "Vente en FCFA",
+  "contact": "074 54 39 26",
+  "avatar": "voiture"
+ },
+ {
+  "titre": "Camion Mitsubishi Canter",
+  "description": "Diesel, boîte manuelle, en bon état. Prix à débattre.\nPrix : Prix à débattre\nContact : 077 08 47 88 / 062 72 62 13",
+  "categorie": "Autre",
+  "etat": "Bon état",
+  "valeurEstimee": 0,
+  "recherche": "Vente en FCFA",
+  "contact": "077 08 47 88",
+  "avatar": "camion"
+ },
+ {
+  "titre": "Moteur Mitsubishi Canter 4D 32/33 + châssis",
+  "description": "Diesel, boîte manuelle, bon état.\nPrix : Sur demande\nContact : 077 08 47 88 / 062 72 62 13",
+  "categorie": "Autre",
+  "etat": "Bon état",
+  "valeurEstimee": 0,
+  "recherche": "Vente en FCFA",
+  "contact": "077 08 47 88",
+  "avatar": "camion"
+ },
+ {
+  "titre": "Location de tentes VIP, tables et sono",
+  "description": "Tentes VIP et de toutes dimensions, tréteaux, tables rondes, sono efficace.\nPrix : Sur demande\nContact : 066 44 31 33 / 077 19 99 59",
+  "categorie": "Autre",
+  "etat": "Bon état",
+  "valeurEstimee": 0,
+  "recherche": "Location, contactez le vendeur",
+  "contact": "066 44 31 33",
+  "avatar": "tente"
+ }
+]
